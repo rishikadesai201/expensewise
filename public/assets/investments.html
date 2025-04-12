@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Manage and track your investments including stocks, mutual funds, and other assets in one place with ExpenseWise." />
+  <title>Investments - ExpenseWise</title>
+  <link rel="stylesheet" href="/public/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1><i class="fas fa-wallet"></i> ExpenseWise</h1>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+          <li><a href="/transactions"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+          <li><a href="/budgets"><i class="fas fa-chart-pie"></i> Budgets</a></li>
+          <li><a href="/goals"><i class="fas fa-bullseye"></i> Goals</a></li>
+          <li class="active"><a href="/investments"><i class="fas fa-chart-line"></i> Investments</a></li>
+          <li><a href="/loans"><i class="fas fa-hand-holding-usd"></i> Loans</a></li>
+          <li><a href="/shared-expenses"><i class="fas fa-users"></i> Shared</a></li>
+          <li><a href="/reports"><i class="fas fa-file-alt"></i> Reports</a></li>
+          <li><a href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="dashboard-header">
+        <h2>Investments</h2>
+        <p>Track your stocks, mutual funds, and other assets.</p>
+      </header>
+
+      <!-- Add Investment Form -->
+      <section class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-plus-circle"></i> Add New Investment</h3>
+        </div>
+        <div class="card-body">
+          <form id="investmentForm">
+            <div class="form-group">
+              <label for="investmentName">Investment Name</label>
+              <input type="text" id="investmentName" class="form-control" required aria-label="Investment Name" />
+            </div>
+
+            <div class="form-group">
+              <label for="investmentAmount">Amount Invested ($)</label>
+              <input type="number" id="investmentAmount" class="form-control" required aria-label="Amount Invested" />
+            </div>
+
+            <div class="form-group">
+              <label for="investmentType">Type</label>
+              <select id="investmentType" class="form-control" required aria-label="Investment Type">
+                <option value="">Select type</option>
+                <option value="Stocks">Stocks</option>
+                <option value="Mutual Funds">Mutual Funds</option>
+                <option value="Bonds">Bonds</option>
+                <option value="Crypto">Cryptocurrency</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="investmentDate">Date</label>
+              <input type="date" id="investmentDate" class="form-control" required aria-label="Investment Date" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Investment</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Investment List -->
+      <section class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-chart-line"></i> Investment Portfolio</h3>
+        </div>
+        <div class="card-body">
+          <div id="investment-list">
+            <!-- Investment data will be loaded here -->
+            <p>Loading investments...</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/investments.js"></script>
+</body>
+
+</html>

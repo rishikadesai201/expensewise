@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile - ExpenseWise</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1><i class="fas fa-wallet"></i> ExpenseWise</h1>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+          <li><a href="/transactions"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+          <li><a href="/budgets"><i class="fas fa-chart-pie"></i> Budgets</a></li>
+          <li><a href="/goals"><i class="fas fa-bullseye"></i> Goals</a></li>
+          <li><a href="/investments"><i class="fas fa-chart-line"></i> Investments</a></li>
+          <li><a href="/loans"><i class="fas fa-hand-holding-usd"></i> Loans</a></li>
+          <li><a href="/shared-expenses"><i class="fas fa-users"></i> Shared</a></li>
+          <li><a href="/reports"><i class="fas fa-file-alt"></i> Reports</a></li>
+          <li><a href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
+          <li class="active"><a href="/profile"><i class="fas fa-user"></i> Profile</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="dashboard-header">
+        <h2>Your Profile</h2>
+        <p>View and manage your personal details.</p>
+      </header>
+
+      <section class="card profile-card">
+        <div class="card-body">
+          <div class="profile-info">
+            <div class="profile-avatar">
+              <img src="/images/profile-default.png" alt="Profile Picture" />
+              <input type="file" id="uploadAvatar" />
+            </div>
+            <div class="profile-details">
+              <h3 id="profile-name">John Doe</h3>
+              <p>Email: <span id="profile-email">john@example.com</span></p>
+              <p>Member since: <span id="profile-since">Jan 2024</span></p>
+              <button class="btn btn-primary" id="editProfileBtn">Edit Profile</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card edit-profile-form hidden" id="editProfileSection">
+        <div class="card-header">
+          <h3><i class="fas fa-edit"></i> Edit Profile</h3>
+        </div>
+        <div class="card-body">
+          <form id="profileForm">
+            <div class="form-group">
+              <label for="editName">Name</label>
+              <input type="text" id="editName" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="editEmail">Email</label>
+              <input type="email" id="editEmail" class="form-control" required />
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-success">Save</button>
+              <button type="button" class="btn btn-secondary" id="cancelEdit">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Log a new income or expense to keep your finances up to date with ExpenseWise. Manage your transactions easily." />
+  <title>Add Transaction - ExpenseWise</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1><i class="fas fa-wallet"></i> ExpenseWise</h1>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+          <li class="active"><a href="/transactions"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+          <li><a href="/budgets"><i class="fas fa-chart-pie"></i> Budgets</a></li>
+          <li><a href="/goals"><i class="fas fa-bullseye"></i> Goals</a></li>
+          <li><a href="/investments"><i class="fas fa-chart-line"></i> Investments</a></li>
+          <li><a href="/loans"><i class="fas fa-hand-holding-usd"></i> Loans</a></li>
+          <li><a href="/shared-expenses"><i class="fas fa-users"></i> Shared</a></li>
+          <li><a href="/reports"><i class="fas fa-file-alt"></i> Reports</a></li>
+          <li><a href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="dashboard-header">
+        <h2>Add New Transaction</h2>
+        <p>Log a new income or expense to keep your finances up to date.</p>
+      </header>
+
+      <section class="card add-transaction-form">
+        <div class="card-body">
+          <form id="transactionForm">
+            <div class="form-group">
+              <label for="transactionType" id="transactionTypeLabel">Type</label>
+              <select id="transactionType" class="form-control" aria-labelledby="transactionTypeLabel" required>
+                <option value="">Select type</option>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="transactionAmount">Amount</label>
+              <input type="number" id="transactionAmount" class="form-control" step="0.01" min="0" required>
+            </div>
+
+            <div class="form-group">
+              <label for="transactionCategory">Category</label>
+              <select id="transactionCategory" class="form-control" aria-labelledby="transactionCategoryLabel" required>
+                <option value="">Select category</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="transactionDate">Date</label>
+              <input type="date" id="transactionDate" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+              <label for="transactionDescription">Description</label>
+              <input type="text" id="transactionDescription" class="form-control" placeholder="Optional note" />
+            </div>
+
+            <div class="form-group">
+              <label for="transactionReceipt">Receipt (optional)</label>
+              <input type="file" id="transactionReceipt" class="form-control" accept="image/*,application/pdf" />
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Add Transaction</button>
+              <a href="/transactions" class="btn btn-secondary" role="button" aria-label="Cancel and return to transactions">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/add-transaction.js"></script>
+</body>
+</html>
