@@ -12,7 +12,7 @@
     <h2 class="auth-title">Create an Account</h2>
     <p class="auth-subtitle">Start your journey to smarter financial management</p>
 
-    <form class="auth-form" id="create-account-form" method="POST" action="/createaccount">
+    <form class="auth-form" id="create-account-form">
       <label for="username">Username</label>
       <input type="text" id="username" name="username" placeholder="Your name" required />
 
@@ -22,12 +22,12 @@
       <label for="password">Password</label>
       <div class="password-wrapper">
         <input type="password" id="password" name="password" placeholder="Create a password" required />
-        <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
       </div>
 
       <button type="submit" class="btn primary full">Create Account</button>
 
-      <p class="auth-bottom-text">Already have an account? <a href="/signin.html">Sign in</a></p>
+      <p class="auth-bottom-text">Already have an account? <a href="/signin">Sign in</a></p>
     </form>
 
     <footer class="footer">
@@ -35,6 +35,52 @@
     </footer>
   </div>
 
-  <script src="/js/auth.js"></script>
+  <script>
+    // Handle form submission
+    document.getElementById('create-account-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const form = e.target;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creating Account...';
+        
+        const response = await fetch('/api/users/createaccount', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: form.username.value,
+            email: form.email.value,
+            password: form.password.value
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to create account');
+        }
+        
+        alert('Account created successfully!');
+        window.location.href = '/signin';
+      } catch (error) {
+        alert(error.message);
+        console.error('Error:', error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Account';
+      }
+    });
+
+    // Password toggle function
+    function togglePassword(fieldId) {
+      const passwordInput = document.getElementById(fieldId);
+      passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    }
+  </script>
 </body>
 </html>

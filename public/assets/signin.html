@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign In - ExpenseWise</title>
-  <link rel="stylesheet" href="/public/css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <div class="auth-container">
@@ -19,7 +19,7 @@
       <label for="password">Password</label>
       <div class="password-wrapper">
         <input type="password" id="password" name="password" placeholder="********" required />
-        <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
       </div>
 
       <div class="auth-links">
@@ -28,7 +28,7 @@
 
       <button type="submit" class="btn primary full">Sign in</button>
 
-      <p class="auth-bottom-text">Don't have an account? <a href="/createaccount.html">Sign up</a></p>
+      <p class="auth-bottom-text">Don't have an account? <a href="/createaccount">Sign up</a></p>
     </form>
 
     <footer class="footer">
@@ -36,6 +36,52 @@
     </footer>
   </div>
 
-  <script src="/js/auth.js"></script>
+  <script>
+    // Handle form submission
+    document.getElementById('signin-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const form = e.target;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Signing in...';
+        
+        const response = await fetch('/api/users/signin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: form.email.value,
+            password: form.password.value
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Login failed');
+        }
+        
+        // Save token and redirect
+        localStorage.setItem('token', data.token);
+        window.location.href = '/dashboard';
+      } catch (error) {
+        alert(error.message);
+        console.error('Error:', error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign in';
+      }
+    });
+
+    // Password toggle function
+    function togglePassword(fieldId) {
+      const passwordInput = document.getElementById(fieldId);
+      passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    }
+  </script>
 </body>
 </html>
