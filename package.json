@@ -21,11 +21,19 @@
         "bcryptjs": "^3.0.2",
         "cors": "^2.8.5",
         "dotenv": "^16.3.1",
-        "express": "^4.18.2",
+        "express": "^4.21.2",
         "express-fileupload": "^1.4.0",
-        "mysql2": "^3.6.0"
+        "mysql2": "^3.14.0"
     },
     "devDependencies": {
         "nodemon": "^3.0.3"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rishikadesai201/expensewise.git"
+    },
+    "bugs": {
+        "url": "https://github.com/rishikadesai201/expensewise/issues"
+    },
+    "homepage": "https://github.com/rishikadesai201/expensewise#readme"
 }

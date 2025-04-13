@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ExpenseWise - Smart Finance Management</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <script>
+    // Test connection to backend
+    async function testBackend() {
+      try {
+        const response = await fetch('http://localhost:3001/api/test');
+        const data = await response.json();
+        console.log('Backend response:', data);
+      } catch (err) {
+        console.error('Failed to connect to backend:', err);
+      }
+    }
+    
+    // Call when page loads
+    window.addEventListener('DOMContentLoaded', testBackend);
+  </script>
 </head>
 <body>
   <div class="container">
