@@ -9,7 +9,7 @@ const mockUserId = 1; // Replace with actual user ID from session/token
 // GET /api/settings - fetch user settings
 router.get('/', async (req, res) => {
   try {
-    const [user] = await db.query('SELECT username, email, monthly_budget AS monthlyBudget, notifications, theme FROM users WHERE id = ?', [mockUserId]);
+    const [rows] = await db.promise().query('SELECT username, email, monthly_budget AS monthlyBudget, notifications, theme FROM users WHERE id = ?', [mockUserId]);
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     res.json({ success: true, settings: user });
@@ -18,6 +18,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error', errorDetails: err.message });
   }
 });
+ const user=rows[0];
 
 // PUT /api/settings - update user settings
 router.put('/', async (req, res) => {
@@ -46,7 +47,7 @@ router.put('/', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error', errorDetails: err.message });
   }
 });
-
+ 
   document.getElementById('signoutBtn')?.addEventListener('click', function (e) {
     e.preventDefault();
 
