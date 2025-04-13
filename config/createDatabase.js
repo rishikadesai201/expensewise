@@ -103,20 +103,20 @@ const fullSQL = `
   );
 `;
 
-// ✅ Run everything
+// Run everything
 connection.connect(err => {
   if (err) {
-    console.error('❌ MySQL connection error:', err);
+    console.error(' MySQL connection error:', err);
     return;
   }
 
-  console.log('✅ Connected to MySQL');
+  console.log('Connected to MySQL');
 
   connection.query(fullSQL, (err, results) => {
     if (err) {
-      console.error('❌ Error creating DB or tables:', err);
+      console.error('Error creating DB or tables:', err);
     } else {
-      console.log('✅ Database and all tables created successfully!');
+      console.log('Database and all tables created successfully!');
     }
     connection.end();
   });
