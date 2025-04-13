@@ -202,6 +202,7 @@
     .sidebar {
       width: 100%;
       flex-direction: row;
+      background-color: #0f2a4a;
       overflow-x: auto;
     }
   
