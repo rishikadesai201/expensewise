@@ -19,6 +19,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error', errorDetails: err.message });
   }
 });
+ const user=rows[0];
 
 // PUT /api/settings - update user settings
 router.put('/', async (req, res) => {
@@ -47,5 +48,22 @@ router.put('/', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error', errorDetails: err.message });
   }
 });
+
+  document.getElementById('signoutBtn')?.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    // Clear all stored auth data
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+
+    // Optional: Clear everything
+    // localStorage.clear();
+
+    // Redirect to login page
+    window.location.href = '/signin';
+  });
+
+
 
 module.exports = router;
