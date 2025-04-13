@@ -199,25 +199,55 @@
       flex-direction: column;
     }
   
-    .sidebar {
-      width: 100%;
-      flex-direction: row;
-      background-color: #0f2a4a;
-      overflow-x: auto;
-    }
-  
-    .sidebar-nav ul {
-      display: flex;
-    }
-  
-    .sidebar-nav ul li {
-      flex: 1;
-    }
+  /* Sidebar */
+  .sidebar {
+    width: 240px;
+    background-color: #0f2a4a;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
   }
-  .sidebar-footer {
-    margin-top: auto;
-    padding: 20px;
+  
+  .sidebar-header {
+    text-align: center;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid #34495e;
   }
+  
+  .sidebar-header h1 {
+    font-size: 24px;
+    color: #ffffff;
+  }
+  
+  .sidebar-nav ul {
+    list-style: none;
+    padding: 20px 0;
+  }
+  
+  .sidebar-nav li {
+    margin-bottom: 15px;
+  }
+  
+  .sidebar-nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s, border-left 0.3s;
+  }
+  
+  .sidebar-nav a:hover,
+  .sidebar-nav .active a {
+    background-color: #172c4d;
+    border-left: 4px solid #1abc9c;
+  }
+  
+  .sidebar-nav i {
+    margin-right: 10px;
+  }
+  
   
   .signout-btn {
     display: block;
@@ -237,5 +267,4 @@
   .signout-btn:hover {
     background-color: #a93226;
   }
-  
-  
+}

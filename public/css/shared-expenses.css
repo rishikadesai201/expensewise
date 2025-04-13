@@ -68,16 +68,15 @@ body {
     align-items: center;
     gap: 10px;
   }
-  
-  .sidebar-nav li.active,
-  .sidebar-nav li:hover {
-    background-color: #2980b9;
-    color: white;
+   
+  .sidebar-nav a:hover,
+  .sidebar-nav .active a {
+    background-color: #172c4d;
+    border-left: 4px solid #1abc9c;
   }
   
   /* === Main Content === */
   .main-content {
-    margin-left: 240px;
     padding: 30px;
     flex: 1;
   }
@@ -158,6 +157,7 @@ body {
     }
   
     .main-content {
+      margin: 240px;
       margin-left: 0;
       padding: 20px;
     }

@@ -19,38 +19,55 @@
     min-height: 100vh;
   }
   
+  /* Sidebar */
   .sidebar {
     width: 240px;
     background-color: #0f2a4a;
-    color: white;
+    color: #fff;
     display: flex;
     flex-direction: column;
+    padding: 20px 0;
   }
   
   .sidebar-header {
-    padding: 20px;
-    background-color: #1a252f;
-    font-size: 20px;
     text-align: center;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid #34495e;
+  }
+  
+  .sidebar-header h1 {
+    font-size: 24px;
+    color: #ffffff;
   }
   
   .sidebar-nav ul {
     list-style: none;
+    padding: 20px 0;
   }
   
-  .sidebar-nav ul li a {
-    display: block;
-    padding: 15px 20px;
+  .sidebar-nav li {
+    margin-bottom: 15px;
+  }
+  
+  .sidebar-nav a {
     color: #ecf0f1;
     text-decoration: none;
-    transition: background 0.3s;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s, border-left 0.3s;
   }
   
-  .sidebar-nav ul li a:hover,
-  .sidebar-nav ul li.active a {
-    background-color: #34495e;
-    font-weight: bold;
+  .sidebar-nav a:hover,
+  .sidebar-nav .active a {
+    background-color: #172c4d;
+    border-left: 4px solid #1abc9c;
   }
+  
+  .sidebar-nav i {
+    margin-right: 10px;
+  }
+  
   
   /* Main Content */
   .main-content {

@@ -7,8 +7,8 @@
   }
   
   body {
-    background-color: #f4f6f9;
-    color: #333;
+    background-color: #f4f6f8;
+    color: #2d3436;
   }
   
   /* Layout */
@@ -35,6 +35,7 @@
   
   .sidebar-header h1 {
     font-size: 24px;
+    color: #ffffff;
   }
   
   .sidebar-nav ul {
@@ -52,12 +53,12 @@
     padding: 10px 20px;
     display: flex;
     align-items: center;
-    transition: background 0.3s;
+    transition: background 0.3s, border-left 0.3s;
   }
   
   .sidebar-nav a:hover,
   .sidebar-nav .active a {
-    background-color: #34495e;
+    background-color: #172c4d;
     border-left: 4px solid #1abc9c;
   }
   
@@ -78,7 +79,7 @@
   
   .dashboard-header h2 {
     font-size: 28px;
-    color: #2c3e50;
+    color: #2d3436;
   }
   
   .dashboard-header p {
@@ -95,7 +96,7 @@
   }
   
   .card {
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
@@ -104,13 +105,13 @@
   .card h3 {
     font-size: 18px;
     margin-bottom: 10px;
-    color: #34495e;
+    color: #2d3436;
   }
   
   .card p {
     font-size: 20px;
     font-weight: 500;
-    color: #2c3e50;
+    color: #2d3436;
   }
   
   /* Progress Bar */
