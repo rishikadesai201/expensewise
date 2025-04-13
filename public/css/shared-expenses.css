@@ -79,6 +79,7 @@ body {
   .main-content {
     padding: 30px;
     flex: 1;
+    margin-left: 240px; /* Match the sidebar width */
   }
   
   .dashboard-header h2 {
@@ -144,7 +145,6 @@ body {
     color: #555;
   }
   
-  /* === Responsive Design === */
   @media (max-width: 768px) {
     .dashboard-container {
       flex-direction: column;
@@ -157,8 +157,7 @@ body {
     }
   
     .main-content {
-      margin: 240px;
-      margin-left: 0;
+      margin: 0;
       padding: 20px;
     }
   }
