@@ -4,7 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign In - ExpenseWise</title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/signin.css" />
+  <style>
+    .error-message {
+      color: #e74c3c;
+      margin-top: 5px;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div class="auth-container">
@@ -15,12 +23,14 @@
     <form class="auth-form" id="signin-form">
       <label for="email">Email</label>
       <input type="email" id="email" name="email" placeholder="name@example.com" required />
+      <div id="email-error" class="error-message"></div>
 
       <label for="password">Password</label>
       <div class="password-wrapper">
         <input type="password" id="password" name="password" placeholder="********" required />
         <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
       </div>
+      <div id="password-error" class="error-message"></div>
 
       <div class="auth-links">
         <a href="#" class="forgot-link">Forgot password?</a>
@@ -43,6 +53,12 @@
       
       const form = e.target;
       const submitBtn = form.querySelector('button[type="submit"]');
+      const emailError = document.getElementById('email-error');
+      const passwordError = document.getElementById('password-error');
+      
+      // Reset error messages
+      emailError.style.display = 'none';
+      passwordError.style.display = 'none';
       
       try {
         submitBtn.disabled = true;
@@ -62,15 +78,27 @@
         const data = await response.json();
         
         if (!response.ok) {
+          if (response.status === 401) {
+            passwordError.textContent = data.error || 'Invalid email or password';
+            passwordError.style.display = 'block';
+          } else if (response.status === 400) {
+            emailError.textContent = data.error || 'Invalid email format';
+            emailError.style.display = 'block';
+          }
           throw new Error(data.error || 'Login failed');
         }
         
-        // Save token and redirect
+        // Save token and user data
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('username', data.username);
+        
         window.location.href = '/dashboard';
       } catch (error) {
-        alert(error.message);
         console.error('Error:', error);
+        if (!error.message.includes('Invalid')) {
+          alert('An error occurred. Please try again later.');
+        }
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Sign in';

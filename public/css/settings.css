@@ -213,4 +213,28 @@
       flex: 1;
     }
   }
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 20px;
+  }
+  
+  .signout-btn {
+    display: block;
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 12px 20px;
+    background-color: #c0392b;
+    border-radius: 6px;
+    text-align: center;
+    transition: background 0.3s ease;
+  }
+  
+  .signout-btn i {
+    margin-right: 8px;
+  }
+  
+  .signout-btn:hover {
+    background-color: #a93226;
+  }
+  
   

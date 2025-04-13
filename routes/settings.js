@@ -47,4 +47,21 @@ router.put('/', async (req, res) => {
   }
 });
 
+  document.getElementById('signoutBtn')?.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    // Clear all stored auth data
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+
+    // Optional: Clear everything
+    // localStorage.clear();
+
+    // Redirect to login page
+    window.location.href = '/signin';
+  });
+
+
+
 module.exports = router;

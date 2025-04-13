@@ -1,57 +1,79 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
+const authenticate = require('../middleware/auth');
 
-// Assuming user ID comes from session or authentication middleware
-// const USER_ID = req.user.id; // Uncomment if you're using session-based auth
-
-const USER_ID = 1; // Placeholder for user ID
-
-router.get('/', async (req, res) => {
+router.get('/', authenticate, async (req, res) => {
   try {
+    const userId = req.user.userId;
+
     // Fetch user-related data from the database
-    const [[{ totalIncome }]] = await db.execute('SELECT SUM(amount) as totalIncome FROM transactions WHERE user_id = ? AND type = "income"', [USER_ID]);
-    const [[{ totalExpense }]] = await db.execute('SELECT SUM(amount) as totalExpense FROM transactions WHERE user_id = ? AND type = "expense"', [USER_ID]);
-    const [[{ lastMonthBalance }]] = await db.execute(`
-      SELECT SUM(CASE WHEN type='income' THEN amount ELSE -amount END) as lastMonthBalance
-      FROM transactions
-      WHERE user_id = ? AND MONTH(date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
-    `, [USER_ID]);
+    const [[{ totalIncome }]] = await db.execute(
+      'SELECT SUM(amount) as totalIncome FROM transactions WHERE user_id = ? AND type = "income"',
+      [userId]
+    );
+    
+    const [[{ totalExpense }]] = await db.execute(
+      'SELECT SUM(amount) as totalExpense FROM transactions WHERE user_id = ? AND type = "expense"',
+      [userId]
+    );
+    
+    const [[{ lastMonthBalance }]] = await db.execute(
+      `SELECT SUM(CASE WHEN type='income' THEN amount ELSE -amount END) as lastMonthBalance
+       FROM transactions
+       WHERE user_id = ? AND MONTH(date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)`,
+      [userId]
+    );
 
-    const [budgets] = await db.execute('SELECT * FROM budgets WHERE user_id = ?', [USER_ID]);
-    const [goals] = await db.execute('SELECT * FROM goals WHERE user_id = ?');
-    const [transactions] = await db.execute('SELECT * FROM transactions WHERE user_id = ? ORDER BY date DESC LIMIT 5', [USER_ID]);
+    const [budgets] = await db.execute(
+      'SELECT * FROM budgets WHERE user_id = ?',
+      [userId]
+    );
+    
+    const [goals] = await db.execute(
+      'SELECT * FROM goals WHERE user_id = ?',
+      [userId]
+    );
+    
+    const [transactions] = await db.execute(
+      'SELECT * FROM transactions WHERE user_id = ? ORDER BY date DESC LIMIT 5',
+      [userId]
+    );
 
-    // Ensure total income/expense values are numbers (fallback to 0)
+    // Get user details
+    const [[user]] = await db.execute(
+      'SELECT username, email FROM users WHERE id = ?',
+      [userId]
+    );
+
+    // Process data
     const totalBalance = (totalIncome || 0) - (totalExpense || 0);
-    const monthlyLimit = budgets.reduce((acc, b) => acc + parseFloat(b.limit), 0);
+    const monthlyLimit = budgets.reduce((acc, b) => acc + parseFloat(b.amount), 0);
+    
     const [spentResults, budgetSpent] = await Promise.all([
       Promise.all(budgets.map(async (b) => {
-        const [spentResult] = await db.execute(
+        const [[{ spent }]] = await db.execute(
           'SELECT SUM(amount) as spent FROM transactions WHERE user_id = ? AND category = ? AND type = "expense"',
-          [USER_ID, b.category]
+          [userId, b.category]
         );
-        const spent = spentResult[0].spent || 0;
         return {
           category: b.category,
-          limit: `$${b.limit.toFixed(2)}`,
-          spent: `$${spent.toFixed(2)}`,
-          usedPercent: b.limit ? (spent / b.limit) * 100 : 0
+          limit: b.amount,
+          spent: spent || 0,
+          usedPercent: b.amount ? ((spent || 0) / b.amount) * 100 : 0
         };
       })),
-      getBudgetSpent(USER_ID)
+      getBudgetSpent(userId)
     ]);
 
     const budgetUsedPercent = monthlyLimit ? (budgetSpent / monthlyLimit) * 100 : 0;
 
     const goalSummaries = goals.map(g => ({
       name: g.name,
-      target: g.target,
-      saved: g.saved,
-      progressPercent: g.target ? (g.saved / g.target) * 100 : 0
+      target: g.target_amount,
+      saved: g.current_amount,
+      progressPercent: g.target_amount ? (g.current_amount / g.target_amount) * 100 : 0
     }));
-
-    const user = { name: "Alex" }; // Replace with real user data
 
     res.json({
       user,
