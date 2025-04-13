@@ -3,7 +3,8 @@ const router = express.Router();
 const authenticate = require("../middleware/auth");
 
 // GET categories
-router.get("/", authenticate, (req, res) => {
+router.get("/", (req, res) => {
+  console.log("Categories route hit");
   const categories = [
     { "value": "food", "label": "Food" },
     { "value": "bills", "label": "Utility Bills" },
