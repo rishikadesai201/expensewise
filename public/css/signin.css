@@ -1,0 +1,157 @@
+/* signin.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #f4f6f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .auth-container {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .logo {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+  
+  .logo span {
+    color: #3498db;
+  }
+  
+  .auth-title {
+    font-size: 22px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .auth-subtitle {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 30px;
+  }
+  
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  
+  .auth-form label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .auth-form input {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  
+  .auth-form input:focus {
+    border-color: #3498db;
+  }
+  
+  .password-wrapper {
+    position: relative;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .auth-links {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .auth-links a {
+    font-size: 13px;
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  .auth-links a:hover {
+    text-decoration: underline;
+  }
+  
+  .btn {
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .btn.primary {
+    background: #3498db;
+    color: #fff;
+  }
+  
+  .btn.primary:hover {
+    background: #2980b9;
+  }
+  
+  .btn.full {
+    width: 100%;
+  }
+  
+  .auth-bottom-text {
+    font-size: 13px;
+    color: #555;
+    margin-top: 20px;
+  }
+  
+  .auth-bottom-text a {
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  .auth-bottom-text a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #888;
+  }
+  
+  .footer a {
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  
