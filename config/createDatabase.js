@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 
-// ✅ Create connection
+// Create connection
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -8,10 +8,10 @@ const connection = mysql.createConnection({
   multipleStatements: true
 });
 
-// ✅ Database name
+// Database name
 const dbName = 'expensewise';
 
-// ✅ SQL to create database + all tables
+// SQL to create database + all tables
 const fullSQL = `
   CREATE DATABASE IF NOT EXISTS ${dbName};
   USE ${dbName};
