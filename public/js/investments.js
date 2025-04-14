@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
           item.innerHTML = `
             <h4>${investment.name} <span class="badge">${investment.type}</span></h4>
             <p>Invested: $${investment.amount}</p>
-            <p>Date: ${new Date(investment.date).toLocaleDateString()}</p>
+            <p>Date: ${new Date(investment.purchase_date).toLocaleDateString()}</p>
           `;
           listContainer.appendChild(item);
         });
@@ -33,8 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
       name: document.getElementById('investmentName').value,
       amount: parseFloat(document.getElementById('investmentAmount').value),
       type: document.getElementById('investmentType').value,
-      date: document.getElementById('investmentDate').value
+      purchase_date: document.getElementById('investmentDate').value
     };
+
     try {
       const res = await fetch('/api/investments', {
         method: 'POST',

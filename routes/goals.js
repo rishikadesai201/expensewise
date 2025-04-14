@@ -15,10 +15,10 @@ router.get('/', async (req, res) => {
 
 // Create a new goal
 router.post('/', async (req, res) => {
-  const { title, description, target_amount } = req.body;
+  const { title, description, target_amount, deadline } = req.body;
 
-  if (!title || !description || !target_amount) {
-    return res.status(400).json({ error: 'Title, description, and target amount are required.' });
+  if (!title || !description || !target_amount || !deadline) {
+    return res.status(400).json({ error: 'Title, description, target amount, and deadline are required.' });
   }
 
   if (isNaN(target_amount) || target_amount <= 0) {
@@ -27,8 +27,8 @@ router.post('/', async (req, res) => {
 
   try {
     await db.query(
-      'INSERT INTO goals (title, description, target_amount, saved_amount) VALUES (?, ?, ?, 0)',
-      [title, description, target_amount]
+      'INSERT INTO goals (title, description, target_amount, saved_amount, deadline) VALUES (?, ?, ?, 0, ?)',
+      [title, description, target_amount, deadline]
     );
     res.status(201).json({ message: 'Goal created successfully.' });
   } catch (err) {
@@ -69,4 +69,3 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
-
