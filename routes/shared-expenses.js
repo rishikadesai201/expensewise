@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
+const authenticate = require('../middleware/auth');
 
-// GET all shared expenses
-router.get('/', async (req, res) => {
+router.get('/', authenticate, async (req, res) => {
   try {
-    const [rows] = await db.execute('SELECT * FROM shared_expenses ORDER BY created_at DESC');
+    const [rows] = await db.promise().query(
+      'SELECT * FROM shared_expenses WHERE user_id = ? ORDER BY date DESC',
+      [req.user.userId]
+    );
 
-    // Convert comma-separated string into array
     const formatted = rows.map(item => ({
       ...item,
-      participants: item.participants.split(',').map(p => p.trim())
+      participants: item.participants ? item.participants.split(',').map(p => p.trim()) : []
     }));
 
     res.json(formatted);
@@ -20,21 +22,17 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST a new shared expense
-router.post('/', async (req, res) => {
+router.post('/', authenticate, async (req, res) => {
   const { title, amount, participants } = req.body;
 
-  if (!title || !amount || !participants || participants.length === 0) {
+  if (!title || !amount || !participants || !Array.isArray(participants) || participants.length === 0) {
     return res.status(400).json({ message: 'Invalid input. All fields must be provided.' });
   }
 
-  // Ensure participants is a valid array
-  const participantsStr = participants.join(', ');
-
   try {
-    await db.execute(
-      'INSERT INTO shared_expenses (title, amount, participants) VALUES (?, ?, ?)',
-      [title, amount, participantsStr]
+    await db.promise().execute(
+      'INSERT INTO shared_expenses (user_id, title, amount, participants) VALUES (?, ?, ?, ?)',
+      [req.user.userId, title, amount, participants.join(', ')]
     );
     res.status(201).json({ message: 'Shared expense added' });
   } catch (err) {
