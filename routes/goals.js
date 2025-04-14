@@ -5,7 +5,7 @@ const db = require('../config/db');
 // Get all goals
 router.get('/', async (req, res) => {
   try {
-    const [goals] = await db.promise().query('SELECT * FROM goals WHERE user_id = ? ORDER BY id DESC', [req.user?.id || 1]);
+    const [goals] = await db.query('SELECT * FROM goals ORDER BY id DESC');
     res.json(goals);
   } catch (err) {
     console.error('Failed to fetch goals:', err);
@@ -26,9 +26,9 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    await db.promise().query(
-      'INSERT INTO goals (user_id, title, description, target_amount, saved_amount) VALUES (?, ?, ?, ?, 0)',
-      [req.user?.id || 1, title, description, target_amount]
+    await db.query(
+      'INSERT INTO goals (title, description, target_amount, saved_amount) VALUES (?, ?, ?, 0)',
+      [title, description, target_amount]
     );
     res.status(201).json({ message: 'Goal created successfully.' });
   } catch (err) {
@@ -47,8 +47,7 @@ router.put('/:id', async (req, res) => {
   }
 
   try {
-    await db.promise().query('UPDATE goals SET saved_amount = ? WHERE id = ? AND user_id = ?', 
-      [saved_amount, id, req.user?.id || 1]);
+    await db.query('UPDATE goals SET saved_amount = ? WHERE id = ?', [saved_amount, id]);
     res.json({ message: 'Goal updated successfully.' });
   } catch (err) {
     console.error('Failed to update goal:', err);
@@ -61,7 +60,7 @@ router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    await db.promise().query('DELETE FROM goals WHERE id = ? AND user_id = ?', [id, req.user?.id || 1]);
+    await db.query('DELETE FROM goals WHERE id = ?', [id]);
     res.json({ message: 'Goal deleted successfully.' });
   } catch (err) {
     console.error('Failed to delete goal:', err);
@@ -70,3 +69,4 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
+
