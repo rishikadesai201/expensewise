@@ -9,10 +9,18 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(cors());
+// Update the cors middleware in app.js
+app.use(cors({
+  origin: 'http://localhost:5002', // or your frontend URL
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
+app.get('/js/auth.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'js', 'auth.js'));
+});
 
 // Serve static files (Frontend assets like CSS, JS, images)
 app.use(express.static(path.join(__dirname, 'public')));

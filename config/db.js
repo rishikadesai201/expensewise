@@ -1,20 +1,26 @@
 // config/db.js
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
-// MySQL Database connection
-const db = mysql.createConnection({
+// Create a connection pool (recommended for production)
+const pool = mysql.createPool({
   host: 'localhost',
-  user: 'root',      // MySQL username
-  password: '1234',      // MySQL password
-  database: 'expensewise'  // Database name
+  user: 'root',
+  password: '12345678',
+  database: 'expensewise',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-db.connect((err) => {
-  if (err) {
+// Test the connection
+(async () => {
+  try {
+    const connection = await pool.getConnection();
+    console.log('Connected to MySQL');
+    connection.release(); // Release the connection back to the pool
+  } catch (err) {
     console.error('Error connecting to MySQL:', err);
-    return;
   }
-  console.log('Connected to MySQL');
-});
+})();
 
-module.exports = db;
+module.exports = pool;

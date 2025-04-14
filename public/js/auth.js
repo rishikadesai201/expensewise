@@ -1,157 +1,206 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const signinForm = document.getElementById('signin-form');
-  const signupForm = document.getElementById('signup-form');
-  const logoutBtn = document.getElementById('logout-btn');
-
-  if (signinForm) {
-    signinForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      try {
-        const submitBtn = signinForm.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
-
-        const response = await fetch('/api/signin', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-          credentials: 'include'
-        });
-
-        const data = await response.json();
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalBtnText;
-
-        if (response.ok && data.success && data.user) {
-          localStorage.setItem('currentUser', JSON.stringify(data.user));
-          window.location.href = '/dashboard';
-        } else {
-          showError(data.error || 'Invalid email or password');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        showError('An error occurred during login');
-      }
-    });
+/**
+ * Authentication Service - Handles JWT authentication
+ * Features:
+ * - Token management (storage, retrieval)
+ * - Automatic token refresh
+ * - Authentication checks
+ * - User data management
+ * - Session monitoring
+ */
+class Auth {
+  // Store authentication data
+  static setAuthData(token, userData) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('lastActivity', Date.now());
   }
 
-  if (signupForm) {
-    signupForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirm-password').value;
-
-      if (password !== confirmPassword) {
-        showError('Passwords do not match');
-        return;
-      }
-
-      try {
-        const submitBtn = signupForm.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
-
-        const response = await fetch('/api/createaccount', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, email, password }),
-          credentials: 'include'
-        });
-
-        const data = await response.json();
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalBtnText;
-
-        if (response.ok && data.success && data.user) {
-          localStorage.setItem('currentUser', JSON.stringify(data.user));
-          window.location.href = '/dashboard';
-        } else {
-          showError(data.error || 'Account creation failed');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        showError('An error occurred during registration');
-      }
-
-      const passwordInput = document.getElementById('password');
-      const passwordStrength = document.getElementById('password-strength');
-
-      if (passwordInput && passwordStrength) {
-        passwordInput.addEventListener('input', function () {
-          const strength = calculatePasswordStrength(this.value);
-          updatePasswordStrengthIndicator(strength);
-        });
-      }
-    });
+  // Clear authentication data
+  static clearAuthData() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('lastActivity');
   }
 
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async function () {
-      try {
-        const response = await fetch('/api/logout', { method: 'GET', credentials: 'include' });
-        const data = await response.json();
-        if (response.ok && data.success) {
-          localStorage.removeItem('currentUser');
-          window.location.href = '/';
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        showError('Failed to logout');
-      }
-    });
+  // Get stored token
+  static getToken() {
+    return localStorage.getItem('token');
   }
 
-  if (!["/", "/signin", "/createaccount"].includes(window.location.pathname)) {
-    checkAuthStatus();
+  // Get user data
+  static getUser() {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
   }
 
-  function showError(message) {
-    document.querySelectorAll('.error-message').forEach(e => e.remove());
-    const errorElement = document.createElement('div');
-    errorElement.className = 'error-message';
-    errorElement.textContent = message;
-    const form = document.querySelector('form');
-    (form || document.body).insertBefore(errorElement, (form || document.body).firstChild);
-    setTimeout(() => errorElement.remove(), 5000);
+  // Check if user is authenticated
+  static isAuthenticated() {
+    return !!this.getToken();
   }
 
-  async function checkAuthStatus() {
+  // Handle login response
+  static async handleLoginResponse(response) {
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Login failed');
+    }
+
+    const data = await response.json();
+    this.setAuthData(data.token, data.user);
+    return data;
+  }
+
+  // Validate token with server
+  static async validateToken() {
     try {
-      const response = await fetch('/api/dashboard/summary', { credentials: 'include' });
-      if (!response.ok) throw new Error();
-      const data = await response.json();
-      if (data.user) localStorage.setItem('currentUser', JSON.stringify(data.user));
-    } catch {
-      window.location.href = '/signin';
+      const response = await fetch('/api/users/validate-token', {
+        headers: {
+          'Authorization': `Bearer ${this.getToken()}`
+        }
+      });
+      
+      return response.ok;
+    } catch (error) {
+      console.error('Token validation error:', error);
+      return false;
     }
   }
 
-  function calculatePasswordStrength(password) {
-    let strength = 0;
-    if (password.length >= 8) strength++;
-    if (password.length >= 12) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-    if (/[^A-Za-z0-9]/.test(password)) strength++;
-    return Math.min(strength, 5);
+  // Refresh expired token
+  static async refreshToken() {
+    try {
+      const response = await fetch('/api/users/refresh-token', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.getToken()}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      return await this.handleLoginResponse(response);
+    } catch (error) {
+      console.error('Token refresh error:', error);
+      this.clearAuthData();
+      throw error;
+    }
   }
 
-  function updatePasswordStrengthIndicator(strength) {
-    const strengthText = ['Very Weak', 'Weak', 'Moderate', 'Strong', 'Very Strong'];
-    const strengthColors = ['#ff5252', '#ff7946', '#ffb142', '#33d9b2', '#218c74'];
-    const passwordStrength = document.getElementById('password-strength');
-    passwordStrength.textContent = strengthText[strength - 1] || '';
-    passwordStrength.style.color = strengthColors[strength - 1] || '#000';
-    const strengthBars = document.querySelectorAll('.strength-bar span');
-    strengthBars.forEach((bar, i) => {
-      bar.style.backgroundColor = i < strength ? strengthColors[strength - 1] : '#ddd';
+  // Check authentication status with automatic token refresh
+  static async checkAuth() {
+    if (!this.isAuthenticated()) {
+      this.redirectToLogin();
+      return false;
+    }
+
+    // Check token expiration (client-side check)
+    const lastActivity = localStorage.getItem('lastActivity');
+    const idleTime = Date.now() - (lastActivity || 0);
+    const maxIdleTime = 55 * 60 * 1000; // 55 minutes (just under 1 hour token expiry)
+
+    if (idleTime > maxIdleTime) {
+      try {
+        await this.refreshToken();
+      } catch (error) {
+        this.redirectToLogin();
+        return false;
+      }
+    }
+
+    // Validate token with server
+    if (!await this.validateToken()) {
+      this.redirectToLogin();
+      return false;
+    }
+
+    // Update last activity time
+    localStorage.setItem('lastActivity', Date.now());
+    return true;
+  }
+
+  // Handle login
+  static async login(email, password) {
+    const response = await fetch('/api/users/signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    return this.handleLoginResponse(response);
+  }
+
+  // Handle signup
+  static async signup(username, email, password) {
+    const response = await fetch('/api/users/createaccount', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, email, password })
+    });
+    return this.handleLoginResponse(response);
+  }
+
+  // Handle logout
+  static async logout() {
+    try {
+      await fetch('/api/users/signout', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.getToken()}`
+        }
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      this.clearAuthData();
+      this.redirectToLogin();
+    }
+  }
+
+  // Redirect to login page
+  static redirectToLogin() {
+    // Store current location for post-login redirect
+    sessionStorage.setItem('redirectUrl', window.location.pathname);
+    window.location.href = '/signin';
+  }
+
+  // Initialize session monitoring
+  static initSessionMonitor() {
+    // Update activity time on user interaction
+    const updateActivity = () => {
+      localStorage.setItem('lastActivity', Date.now());
+    };
+
+    // Add event listeners for user activity
+    ['click', 'keypress', 'scroll', 'mousemove'].forEach(event => {
+      window.addEventListener(event, updateActivity);
+    });
+
+    // Check session every 5 minutes
+    setInterval(async () => {
+      await this.checkAuth();
+    }, 5 * 60 * 1000);
+  }
+}
+
+// Initialize session monitoring when loaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Don't monitor on auth pages
+  if (!['/signin', '/createaccount', '/'].includes(window.location.pathname)) {
+    Auth.initSessionMonitor();
+    
+    // Check auth status on page load
+    Auth.checkAuth().then(isAuthenticated => {
+      if (!isAuthenticated) {
+        Auth.redirectToLogin();
+      } else {
+        // Redirect back to original requested page if exists
+        const redirectUrl = sessionStorage.getItem('redirectUrl');
+        if (redirectUrl && !redirectUrl.includes('/signin')) {
+          sessionStorage.removeItem('redirectUrl');
+          window.location.href = redirectUrl;
+        }
+      }
     });
   }
 });
+
+// Make Auth class available globally
+window.Auth = Auth;
