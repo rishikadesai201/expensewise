@@ -12,8 +12,8 @@ html {
 body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #f5f6fa;
-  color: #333;
+  background-color: #121212;
+  color: #f0f0f0;
 }
 
 a {
@@ -34,7 +34,7 @@ ul {
 /* === Sidebar === */
 .sidebar {
   width: 240px;
-  background-color: #0f2a4a;
+  background-color: #1f3a57;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -85,50 +85,53 @@ ul {
   flex: 1;
   min-width: 0;
   padding: 30px;
-  background-color: #f9fafc;
+  background-color: #1e1e1e;
 }
 
 /* === Dashboard Header === */
 .dashboard-header h2 {
   font-size: 28px;
   margin-bottom: 5px;
+  color: #ffffff;
 }
 
 .dashboard-header p {
-  color: #666;
+  color: #b0bec5;
   font-size: 14px;
   margin-bottom: 20px;
 }
 
 /* === Card === */
 .card {
-  background-color: #ffffff;
+  background-color: #2b2b2b;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   margin-bottom: 30px;
   overflow: hidden;
   transition: box-shadow 0.3s ease;
 }
 
 .card:hover {
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
 }
 
 .card-header {
   padding: 15px 20px;
-  background-color: #ecf0f1;
+  background-color: #323232;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 10px;
+  color: #ffffff;
 }
 
 .card-header i {
-  color: #2980b9;
+  color: #1abc9c;
 }
 
 .card-body {
   padding: 20px;
+  color: #dddddd;
 }
 
 /* === Buttons === */
@@ -157,14 +160,17 @@ ul {
   display: block;
   font-weight: 500;
   margin-bottom: 6px;
+  color: #e0e0e0;
 }
 
 .form-control {
   padding: 10px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #444;
   border-radius: 6px;
   width: 100%;
   font-size: 14px;
+  background-color: #2d2d2d;
+  color: #ffffff;
 }
 
 .form-control:focus {
@@ -191,13 +197,13 @@ canvas {
 /* === Report Summary === */
 #summaryReport {
   font-size: 16px;
-  color: #444;
+  color: #cccccc;
   line-height: 1.6;
 }
 
 /* === Utility Classes === */
 .text-muted {
-  color: #888;
+  color: #999;
 }
 
 .text-center {
