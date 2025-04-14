@@ -2,9 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('investmentForm');
   const listContainer = document.getElementById('investment-list');
 
+  // Load investments function
   const loadInvestments = async () => {
     try {
       const token = Auth.getToken();
+      console.log('Loaded token:', token);  // Debugging line to check if token is retrieved
+
       const res = await fetch('/api/investments', {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -12,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       
       if (res.status === 401) {
+        console.log('Unauthorized - redirecting to login');
         Auth.redirectToLogin();
         return;
       }
@@ -38,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // Form submission handler for adding new investments
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const newInvestment = {
@@ -49,6 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const token = Auth.getToken();
+      console.log('Posting investment with token:', token);  // Debugging line for token
+
       const res = await fetch('/api/investments', {
         method: 'POST',
         headers: { 
@@ -59,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (res.status === 401) {
+        console.log('Unauthorized - redirecting to login');
         Auth.redirectToLogin();
         return;
       }
