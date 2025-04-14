@@ -208,7 +208,7 @@ body {
 }
 
 .btn-secondary:hover {
-  background-color: #a7b1b7;
+  background-color: #8ca3b1;
 }
 
 /* Table Styles */
@@ -232,7 +232,7 @@ body {
 }
 
 .transactions-table tbody tr:hover {
-  background-color: #f9f9f9;
+  background-color: #216b71;
   color: #333; /* Ensuring good contrast when hovering */
 }
 
@@ -345,4 +345,57 @@ body {
   .modal-content {
     width: 90%;
   }
+<<<<<<< Updated upstream
 }
+  
+  .income {
+    color: #28a745;
+    font-weight: 500;
+}
+.expense {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0 5px;
+    padding: 5px;
+}
+
+.btn-icon.danger {
+    color: #dc3545;
+}
+
+.btn-icon:hover {
+    opacity: 0.8;
+}
+.alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px 25px;
+  border-radius: 5px;
+  color: white;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { top: -50px; opacity: 0; }
+  to { top: 20px; opacity: 1; }
+}
+
+.alert-error {
+  background-color: #ff4444;
+}
+
+.alert-success {
+  background-color: #00C851;
+}
+

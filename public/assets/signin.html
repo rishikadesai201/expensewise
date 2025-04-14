@@ -55,69 +55,42 @@
     </footer>
   </div>
 
+  <script src="/js/auth.js"></script>
   <script>
-    // Handle form submission
     document.getElementById('signin-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const form = e.target;
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const emailError = document.getElementById('email-error');
-      const passwordError = document.getElementById('password-error');
-      
-      // Reset error messages
-      emailError.style.display = 'none';
-      passwordError.style.display = 'none';
-      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+  
       try {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Signing in...';
-        
-        const response = await fetch('/api/users/signin', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            email: form.email.value,
-            password: form.password.value
-          })
-        });
-        
-        const data = await response.json();
-        
-        if (!response.ok) {
-          if (response.status === 401) {
-            passwordError.textContent = data.error || 'Invalid email or password';
-            passwordError.style.display = 'block';
-          } else if (response.status === 400) {
-            emailError.textContent = data.error || 'Invalid email format';
-            emailError.style.display = 'block';
-          }
-          throw new Error(data.error || 'Login failed');
-        }
-        
-        // Save token and user data
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('userId', data.userId);
-        localStorage.setItem('username', data.username);
-        
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+  
+        await Auth.login(email, password);
         window.location.href = '/dashboard';
       } catch (error) {
-        console.error('Error:', error);
-        if (!error.message.includes('Invalid')) {
-          alert('An error occurred. Please try again later.');
-        }
+        const errorElement = document.getElementById('password-error');
+        errorElement.textContent = error.message;
+        errorElement.style.display = 'block';
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Sign in';
+        submitBtn.innerHTML = originalText;
       }
     });
-
-    // Password toggle function
+  
     function togglePassword(fieldId) {
-      const passwordInput = document.getElementById(fieldId);
-      passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+      const input = document.getElementById(fieldId);
+      const icon = document.getElementById('toggle-password-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = '👁️';
+      } else {
+        input.type = 'password';
+        icon.textContent = '🔒';
+      }
     }
   </script>
 </body>

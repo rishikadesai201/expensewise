@@ -1,13 +1,12 @@
-// public/js/transactions.js
-
 document.addEventListener("DOMContentLoaded", () => {
+  // Check authentication first
+  if (!localStorage.getItem('token')) {
+    window.location.href = '/signin';
+    return;
+  }
+
   fetchTransactions();
   populateCategories();
-
-  document.getElementById("filterForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    fetchTransactions();
-  });
 
   document.getElementById("filterForm").addEventListener("reset", () => {
     setTimeout(fetchTransactions, 100); // wait for reset
@@ -19,6 +18,37 @@ document.addEventListener("DOMContentLoaded", () => {
 // Fetch transactions with filters
 async function fetchTransactions() {
   try {
+    // Check and refresh token if needed
+    if (!await Auth.checkAuth()) return;
+
+    const response = await fetch('/api/transactions', {
+      headers: {
+        'Authorization': `Bearer ${Auth.getToken()}`
+      }
+    });
+
+    if (response.status === 401) {
+      // Attempt token refresh
+      try {
+        await Auth.refreshToken();
+        return fetchTransactions(); // Retry with new token
+      } catch (error) {
+        Auth.clearAuth();
+        window.location.href = '/signin';
+        return;
+      }
+    }
+  } catch (error) {
+    console.error("Authentication error:", error);
+  }
+  
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/signin';
+      return;
+    }
+
     const type = document.getElementById("filterType").value;
     const category = document.getElementById("filterCategory").value;
     const from = document.getElementById("filterFromDate").value;
@@ -29,13 +59,111 @@ async function fetchTransactions() {
     if (category) params.append("category", category);
     if (from) params.append("from", from);
     if (to) params.append("to", to);
+    const res = await fetch(`/api/transactions?${params.toString()}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      cache: 'no-store'
+    });
 
-    const res = await fetch(`/api/transactions?${params.toString()}`);
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/signin';
+      return;
+    }
+
+    if (!res.ok) {
+      throw new Error(await res.text());
+    }
+
     const transactions = await res.json();
+    console.log("Fetched transactions:", transactions);
     renderTransactions(transactions);
   } catch (err) {
     console.error("Error fetching transactions:", err);
+    showError(`Failed to load transactions: ${err.message}`);
   }
+}
+
+// Enhanced handleTransactionSubmit
+async function handleTransactionSubmit(e) {
+  e.preventDefault();
+  
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = '/signin';
+    return;
+  }
+
+  const form = e.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalText = submitBtn.innerHTML;
+
+  try {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+    const data = {
+      type: document.getElementById("transactionType").value,
+      amount: parseFloat(document.getElementById("transactionAmount").value),
+      category: document.getElementById("transactionCategory").value,
+      date: document.getElementById("transactionDate").value
+    };
+
+    const res = await fetch("/api/transactions", {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/signin';
+      return;
+    }
+
+    if (!res.ok) {
+      let message = "Failed to save transaction";
+      try {
+        const errorData = await res.json();
+        message = errorData.error || message;
+      } catch {
+        message = await res.text();
+      }
+      throw new Error(message);
+    }
+
+    closeTransactionModal();
+    fetchTransactions();
+    showSuccess("Transaction added successfully!");
+  } catch (err) {
+    console.error("Transaction submission error:", err);
+    showError(err.message || "Failed to add transaction");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalText;
+  }
+}
+
+// Helper functions for showing messages
+function showError(message) {
+  const errorElement = document.createElement('div');
+  errorElement.className = 'alert alert-error';
+  errorElement.textContent = message;
+  document.body.prepend(errorElement);
+  setTimeout(() => errorElement.remove(), 5000);
+}
+
+function showSuccess(message) {
+  const successElement = document.createElement('div');
+  successElement.className = 'alert alert-success';
+  successElement.textContent = message;
+  document.body.prepend(successElement);
+  setTimeout(() => successElement.remove(), 5000);
 }
 
 function renderTransactions(transactions) {
@@ -53,8 +181,8 @@ function renderTransactions(transactions) {
       <td>${new Date(tx.date).toLocaleDateString()}</td>
       <td>${tx.type}</td>
       <td>${tx.category}</td>
-      <td>${tx.description || ""}</td>
-      <td>$${tx.amount.toFixed(2)}</td>
+      <td>-</td>
+      <td>$${Number(tx.amount).toFixed(2)}</td>
       <td>
         <button onclick="editTransaction(${tx.id})">✏️</button>
         <button onclick="deleteTransaction(${tx.id})">🗑️</button>
@@ -72,36 +200,6 @@ function openTransactionModal() {
 function closeTransactionModal() {
   document.getElementById("addTransactionModal").style.display = "none";
   document.getElementById("transactionForm").reset();
-}
-
-// Save transaction
-async function handleTransactionSubmit(e) {
-  e.preventDefault();
-  const data = {
-    type: document.getElementById("transactionType").value,
-    amount: parseFloat(document.getElementById("transactionAmount").value),
-    category: document.getElementById("transactionCategory").value,
-    date: document.getElementById("transactionDate").value,
-    description: document.getElementById("transactionDescription").value
-  };
-
-  try {
-    const res = await fetch("/api/transactions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-
-    if (res.ok) {
-      closeTransactionModal();
-      fetchTransactions();
-    } else {
-      const errorData = await res.json();
-  alert(`Failed to add transaction: ${errorData.error || "Unknown error"}`);
-    }
-  } catch (err) {
-    console.error("Transaction submission error:", err);
-  }
 }
 
 async function deleteTransaction(id) {
