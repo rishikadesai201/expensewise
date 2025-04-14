@@ -43,6 +43,6 @@ const authenticate = async (req, res, next) => {
       error: 'Authentication failed. Please try again.' 
     });
   }
-};
+};''
 
 module.exports = authenticate;
