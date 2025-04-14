@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 
+// Create connection
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -7,8 +8,10 @@ const connection = mysql.createConnection({
   multipleStatements: true
 });
 
+// Database name
 const dbName = 'expensewise';
 
+// SQL to create database + all tables
 const fullSQL = `
   CREATE DATABASE IF NOT EXISTS ${dbName};
   USE ${dbName};
@@ -43,14 +46,16 @@ const fullSQL = `
   );
 
   CREATE TABLE IF NOT EXISTS goals (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    name VARCHAR(100),
-    target_amount DECIMAL(10,2),
-    current_amount DECIMAL(10,2) DEFAULT 0,
-    deadline DATE,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-  );
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  title VARCHAR(100),                          
+  description TEXT,                            
+  target_amount DECIMAL(10,2),
+  saved_amount DECIMAL(10,2) DEFAULT 0,        
+  deadline DATE,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 
   CREATE TABLE IF NOT EXISTS loans (
     id INT AUTO_INCREMENT PRIMARY KEY,

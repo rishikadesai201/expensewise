@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const goalList = document.getElementById("goal-list");
+  const goalList = document.getElementById("goals-list");
   const goalForm = document.getElementById("goalForm");
 
   async function fetchGoals() {
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
       goalCard.innerHTML = `
         <h3>${goal.title}</h3>
         <p>${goal.description}</p>
+        <p><strong>Deadline:</strong> ${new Date(goal.deadline).toLocaleDateString()}</p>
         <div class="progress-container">
           <div class="progress-bar">
             <div class="progress-fill" style="width: ${progress}%"></div>
@@ -38,15 +39,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   goalForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const title = goalForm.title.value;
-    const description = goalForm.description.value;
-    const target_amount = parseFloat(goalForm.target_amount.value);
-    if (!title || !target_amount) return alert("Please fill in all required fields");
+    const title = document.getElementById("goalTitle").value;
+    const description = document.getElementById("goalDescription").value;
+    const target_amount = parseFloat(document.getElementById("goalTarget").value);
+    const deadline = document.getElementById("goalDeadline").value;
+
+    if (!title || !description || !target_amount || !deadline) {
+      return alert("Please fill in all fields.");
+    }
+
     try {
       const res = await fetch("/api/goals", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description, target_amount })
+        body: JSON.stringify({ title, description, target_amount, deadline })
       });
       if (res.ok) {
         goalForm.reset();
@@ -68,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.updateGoal = async (id, oldTitle) => {
-    const newAmount = prompt(`Update saved amount for \"${oldTitle}\" (in numbers):`);
+    const newAmount = prompt(`Update saved amount for "${oldTitle}" (in numbers):`);
     if (newAmount && !isNaN(newAmount)) {
       try {
         const res = await fetch(`/api/goals/${id}`, {
