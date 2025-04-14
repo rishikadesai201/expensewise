@@ -455,17 +455,3 @@ body {
     width: 100%;
   }
 }
-
-/* Style for the button */
-button {
-  
-  background-color:#1abc9c ; /* Green background */
-  color: white; /* White text */
-  border: none; /* Remove the border */
-  padding: 10px 20px; /* Add padding to the button */
-  font-size: 16px; /* Set the font size */
-  border-radius: 5px; /* Round the corners */
-  cursor: pointer; /* Change the cursor to pointer on hover */
-  transition: background-color 0.3s ease; /* Add a smooth transition effect */
-}
-

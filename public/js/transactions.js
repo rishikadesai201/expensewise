@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Check authentication first
   if (!localStorage.getItem('token')) {
     window.location.href = '/signin';
     return;
@@ -8,14 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
   populateCategories();
 
   document.getElementById("filterForm").addEventListener("reset", () => {
-    setTimeout(fetchTransactions, 100); 
+    setTimeout(fetchTransactions, 100); // wait for reset
   });
 
   document.getElementById("transactionForm").addEventListener("submit", handleTransactionSubmit);
 });
 
+// Fetch transactions with filters
 async function fetchTransactions() {
   try {
+    // Check and refresh token if needed
     if (!await Auth.checkAuth()) return;
 
     const response = await fetch('/api/transactions', {
@@ -25,9 +28,10 @@ async function fetchTransactions() {
     });
 
     if (response.status === 401) {
+      // Attempt token refresh
       try {
         await Auth.refreshToken();
-        return fetchTransactions();
+        return fetchTransactions(); // Retry with new token
       } catch (error) {
         Auth.clearAuth();
         window.location.href = '/signin';
@@ -37,7 +41,7 @@ async function fetchTransactions() {
   } catch (error) {
     console.error("Authentication error:", error);
   }
-
+  
   try {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -74,6 +78,7 @@ async function fetchTransactions() {
     }
 
     const transactions = await res.json();
+    console.log("Fetched transactions:", transactions);
     renderTransactions(transactions);
   } catch (err) {
     console.error("Error fetching transactions:", err);
@@ -81,9 +86,10 @@ async function fetchTransactions() {
   }
 }
 
+// Enhanced handleTransactionSubmit
 async function handleTransactionSubmit(e) {
   e.preventDefault();
-
+  
   const token = localStorage.getItem('token');
   if (!token) {
     window.location.href = '/signin';
@@ -143,6 +149,7 @@ async function handleTransactionSubmit(e) {
   }
 }
 
+// Helper functions for showing messages
 function showError(message) {
   const errorElement = document.createElement('div');
   errorElement.className = 'alert alert-error';
@@ -177,12 +184,22 @@ function renderTransactions(transactions) {
       <td>-</td>
       <td>$${Number(tx.amount).toFixed(2)}</td>
       <td>
-        <button onclick="editTransaction(${tx.id})">Update</button>
-        <button onclick="deleteTransaction(${tx.id})">Delete</button>
+        <button onclick="editTransaction(${tx.id})">✏️</button>
+        <button onclick="deleteTransaction(${tx.id})">🗑️</button>
       </td>
     `;
     tableBody.appendChild(row);
   });
+}
+
+// Transaction modal handlers
+function openTransactionModal() {
+  document.getElementById("addTransactionModal").style.display = "block";
+}
+
+function closeTransactionModal() {
+  document.getElementById("addTransactionModal").style.display = "none";
+  document.getElementById("transactionForm").reset();
 }
 
 async function deleteTransaction(id) {
@@ -196,5 +213,30 @@ async function deleteTransaction(id) {
     }
   } catch (err) {
     console.error("Error deleting:", err);
+  }
+}
+
+// Populate categories in filter + form
+async function populateCategories() {
+  try {
+    const res = await fetch("/api/categories");
+    const categories = await res.json();
+
+    const filterCat = document.getElementById("filterCategory");
+    const formCat = document.getElementById("transactionCategory");
+
+    // Clear existing options
+    filterCat.innerHTML = `<option value="">All Categories</option>`;
+    formCat.innerHTML = `<option value="">Select category</option>`;
+
+    // Populate dropdowns with categories
+    categories.forEach(cat => {
+      const filterOption = new Option(cat.label, cat.value); // Use label for display, value for the value
+      const formOption = new Option(cat.label, cat.value);
+      filterCat.appendChild(filterOption);
+      formCat.appendChild(formOption);
+    });
+  } catch (err) {
+    console.error("Error loading categories:", err);
   }
 }

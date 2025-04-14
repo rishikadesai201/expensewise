@@ -65,35 +65,10 @@ async function fetchLoans() {
           <li class="loan-item">
             <strong>${loan.name}</strong> - $${parseFloat(loan.amount).toFixed(2)} from ${loan.lender}<br>
             Interest: ${loan.interest_rate}% | Due: ${new Date(loan.due_date).toLocaleDateString()}
-            <button class="btn btn-primary btn-delete" data-id="${loan.id}" style="margin-left:10px; margin-top:5px;">Delete</button>
           </li>
         `).join('')}
-      </ul>
-    `;
-
-    document.querySelectorAll('.btn-delete').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.dataset.id;
-        if (confirm('Are you sure you want to delete this loan?')) {
-          deleteLoan(id);
-        }
-      });
-    });
-
+      </ul>`;
   } catch (err) {
     container.innerHTML = '<p>Error loading loans. Please try again later.</p>';
-  }
-}
-
-async function deleteLoan(id) {
-  try {
-    const res = await fetch(`/api/loans/${id}`, { method: 'DELETE' });
-    const result = await res.json(); // <- Make sure backend returns valid JSON
-
-    if (!res.ok) throw new Error(result.message || 'Failed to delete loan');
-    
-    fetchLoans();
-  } catch (err) {
-    alert('Error deleting loan: ' + err.message);
   }
 }

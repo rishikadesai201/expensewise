@@ -33,17 +33,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-// DELETE a loan
-router.delete('/:id', async (req, res) => {
-  const loanId = req.params.id;
-
-  try {
-    await db.execute('DELETE FROM loans WHERE id = ?', [loanId]);
-    res.status(200).json({ message: 'Loan deleted successfully' });
-  } catch (err) {
-    console.error('Error deleting loan:', err);
-    res.status(500).json({ message: 'Server error while deleting loan', errorDetails: err.message });
-  }
-});
-
 module.exports = router;
