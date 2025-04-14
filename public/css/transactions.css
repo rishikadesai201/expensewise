@@ -208,7 +208,7 @@ body {
 }
 
 .btn-secondary:hover {
-  background-color: #a7b1b7;
+  background-color: #8ca3b1;
 }
 
 /* Table Styles */
@@ -232,7 +232,7 @@ body {
 }
 
 .transactions-table tbody tr:hover {
-  background-color: #f9f9f9;
+  background-color: #216b71;
   color: #333; /* Ensuring good contrast when hovering */
 }
 
