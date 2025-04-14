@@ -41,22 +41,20 @@
       <section class="dashboard-cards">
         <div class="card">
           <h3>Total Balance</h3>
-          <p id="total-balance">$0</p>
+          <p>$2,500</p>
         </div>
         <div class="card">
           <h3>Budget Left</h3>
-          <div class="progress-bar">
-            <div id="budget-progress" class="progress-fill" style="width: 0%"></div>
-          </div>
-          <p id="budget-left">$0</p>
+          <div class="progress-bar" style="width: 60%"></div>
+          <p>$300</p>
         </div>
         <div class="card">
           <h3>Income</h3>
-          <p id="total-income">$0</p>
+          <p>$3,000</p>
         </div>
         <div class="card">
           <h3>Expenses</h3>
-          <p id="total-expense">$0</p>
+          <p>$500</p>
         </div>
       </section>
 
@@ -78,23 +76,19 @@
 
         <div class="card">
           <h3><i class="fas fa-list"></i> Recent Transactions</h3>
-          <div id="recent-transactions" class="transaction-list">
-            <!-- JavaScript will populate recent transactions here -->
-          </div>
+          <ul class="transaction-list">
+            <li>Grocery - $50</li>
+            <li>Rent - $1200</li>
+            <li>Dining Out - $45</li>
+            <li>Movie Night - $30</li>
+            <li>Subscription - $10</li>
+            <li>Electricity Bill - $75</li>
+          </ul>
         </div>
       </section>
     </main>
   </div>
 
   <script src="/js/dashboard.js"></script>
-  <!-- Initial Balance Modal -->
-<div id="initial-balance-modal" class="modal hidden">
-  <div class="modal-content">
-    <h3>Enter Initial Balance</h3>
-    <input type="number" id="initial-balance-input" placeholder="$0.00" step="0.01" />
-    <button id="submit-initial-balance">Save</button>
-  </div>
-</div>
-
 </body>
 </html>
