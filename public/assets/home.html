@@ -3,44 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ExpenseWise - Smart Finance Management</title>
+  <title>ExpenseWise - Smarter Money, Effortlessly</title>
   <link rel="stylesheet" href="/css/style.css" />
-
 </head>
 <body>
   <div class="container">
+
+    <!-- Header / Navbar -->
     <header class="header">
       <h1 class="logo">Expense<span>Wise</span></h1>
+
+      <!-- Navigation Links -->
+      <nav class="navbar">
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
       <div class="auth-buttons">
-        <a href="/signin" class="btn primary">Sign In</a>
-        <a href="/createaccount" class="btn secondary">Create Account</a>
+        <a href="/signin" class="btn btn-primary">Sign In</a>
+        <a href="/createaccount" class="btn btn-secondary">Create Account</a>
       </div>
     </header>
 
-    <main class="main-section">
-      <h2 class="tagline">Manage your finances intelligently with AI-powered insights</h2>
-      <div class="features">
-        <div class="feature-box">
-          <div class="icon">$</div>
-          <h3>Track Expenses</h3>
-          <p>Easily track and categorize your expenses and income in one place.</p>
-        </div>
-        <div class="feature-box">
-          <div class="icon">📊</div>
-          <h3>Budget Smartly</h3>
-          <p>Create budgets with visual indicators to help you stay on track.</p>
-        </div>
-        <div class="feature-box">
-          <div class="icon">🧠</div>
-          <h3>AI Insights</h3>
-          <p>Get personalized financial insights powered by AI technology.</p>
-        </div>
-      </div>
-    </main>
+    <!-- Hero Section -->
+    <section class="main-section">
+      <h2 class="tagline">Where intelligence meets simplicity in finance</h2>
+      <p style="color:#999; max-width: 600px; margin: 0 auto 50px; font-size: 1rem;">
+        ExpenseWise helps you stay ahead with beautifully visualized budgets, intelligent insights, and total control over your spending — all in one intuitive dashboard.
+      </p>
+    </section>
 
-    <footer class="footer">
-      <p>&copy; 2025 ExpenseWise. All rights reserved.</p>
+    <!-- Features -->
+    <section class="features" id="features">
+      <div class="feature-box">
+        <div class="icon">📁</div>
+        <h3>Unified Dashboard</h3>
+        <p>Track accounts, budgets, savings, and goals in one elegant view.</p>
+      </div>
+      <div class="feature-box">
+        <div class="icon">⚡</div>
+        <h3>Instant Analysis</h3>
+        <p>Real-time summaries with spending trends and smart suggestions.</p>
+      </div>
+      <div class="feature-box">
+        <div class="icon">🔒</div>
+        <h3>Private & Secure</h3>
+        <p>Bank-grade security and local encryption to keep your data safe.</p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="text-align: center; margin-top: 60px;" id="about">
+      <h2 style="color: #eee; font-size: 1.6rem; margin-bottom: 20px;">Ready to elevate your money game?</h2>
+      <a href="/createaccount" class="btn btn-primary" style="padding: 14px 24px; font-size: 1.1rem;">
+        Get Started for Free
+      </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+      <p>&copy; 2025 ExpenseWise. Designed with purpose.</p>
     </footer>
+
   </div>
 </body>
 </html>

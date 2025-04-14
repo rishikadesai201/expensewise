@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '1234', // ← Replace with your MySQL password
+  password: '1234',
   multipleStatements: true
 });
 
@@ -16,7 +16,6 @@ const fullSQL = `
   CREATE DATABASE IF NOT EXISTS ${dbName};
   USE ${dbName};
 
-  -- Users table
   CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -24,8 +23,7 @@ const fullSQL = `
     password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
-  
-  -- Transactions table
+
   CREATE TABLE IF NOT EXISTS transactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -37,7 +35,6 @@ const fullSQL = `
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
 
-  -- Budgets table
   CREATE TABLE IF NOT EXISTS budgets (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -48,7 +45,6 @@ const fullSQL = `
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
 
-  -- Goals table
   CREATE TABLE IF NOT EXISTS goals (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -59,7 +55,6 @@ const fullSQL = `
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
 
-  -- Loans table
   CREATE TABLE IF NOT EXISTS loans (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -71,7 +66,6 @@ const fullSQL = `
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
 
-  -- Investments table
   CREATE TABLE IF NOT EXISTS investments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -82,7 +76,6 @@ const fullSQL = `
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
 
-  -- Shared Expenses table
   CREATE TABLE IF NOT EXISTS shared_expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -94,7 +87,6 @@ const fullSQL = `
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
 
-  -- User Preferences
   CREATE TABLE IF NOT EXISTS user_preferences (
     user_id INT PRIMARY KEY,
     currency VARCHAR(10) DEFAULT 'USD',
@@ -103,20 +95,19 @@ const fullSQL = `
   );
 `;
 
-// ✅ Run everything
 connection.connect(err => {
   if (err) {
-    console.error('❌ MySQL connection error:', err);
+    console.error('MySQL connection error:', err);
     return;
   }
 
-  console.log('✅ Connected to MySQL');
+  console.log('Connected to MySQL');
 
   connection.query(fullSQL, (err, results) => {
     if (err) {
-      console.error('❌ Error creating DB or tables:', err);
+      console.error('Error creating DB or tables:', err);
     } else {
-      console.log('✅ Database and all tables created successfully!');
+      console.log('Database and all tables created successfully!');
     }
     connection.end();
   });

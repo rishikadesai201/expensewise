@@ -9,7 +9,8 @@ const mockUserId = 1; // Replace with actual user ID from session/token
 // GET /api/settings - fetch user settings
 router.get('/', async (req, res) => {
   try {
-    const [user] = await db.query('SELECT username, email, monthly_budget AS monthlyBudget, notifications, theme FROM users WHERE id = ?', [mockUserId]);
+    const [rows] = await db.promise().query('SELECT username, email, monthly_budget AS monthlyBudget, notifications, theme FROM users WHERE id = ?', [mockUserId]);
+    const user = rows[0];
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     res.json({ success: true, settings: user });
@@ -38,7 +39,7 @@ router.put('/', async (req, res) => {
 
     updateValues.push(mockUserId); // For WHERE clause
 
-    await db.query(`UPDATE users SET ${updateFields} WHERE id = ?`, updateValues);
+    await db.promise().query(`UPDATE users SET ${updateFields} WHERE id = ?`, updateValues);
 
     res.json({ success: true, message: 'Settings updated' });
   } catch (err) {
@@ -46,22 +47,5 @@ router.put('/', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error', errorDetails: err.message });
   }
 });
-
-  document.getElementById('signoutBtn')?.addEventListener('click', function (e) {
-    e.preventDefault();
-
-    // Clear all stored auth data
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
-
-    // Optional: Clear everything
-    // localStorage.clear();
-
-    // Redirect to login page
-    window.location.href = '/signin';
-  });
-
-
 
 module.exports = router;
