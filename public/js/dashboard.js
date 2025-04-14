@@ -21,6 +21,43 @@ document.addEventListener('DOMContentLoaded', () => {
       renderBudgetOverview(data.budgetBreakdown);
       renderGoals(data.goals);
       document.getElementById('tip-text').textContent = data.tipOfTheDay || "Plan before you spend!";
+
+      // Show initial balance modal if needed
+      if ((data.totalBalance === 0 || data.initialBalance === 0) && data.totalIncome === 0) {
+        const modal = document.getElementById('initial-balance-modal');
+        const submitBtn = document.getElementById('submit-initial-balance');
+
+        if (modal && submitBtn) {
+          modal.classList.remove('hidden');
+
+          submitBtn.addEventListener('click', async () => {
+            const input = document.getElementById('initial-balance-input');
+            const balance = parseFloat(input.value);
+            if (isNaN(balance) || balance < 0) {
+              alert("Please enter a valid number.");
+              return;
+            }
+
+            try {
+              const res = await fetch('/api/users/set-initial-balance', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ initial_balance: balance })
+              });
+
+              if (!res.ok) throw new Error('Failed to update initial balance');
+
+              modal.classList.add('hidden');
+              fetchDashboardData(); // Reload dashboard data
+            } catch (err) {
+              console.error(err);
+              alert("Something went wrong.");
+            }
+          });
+        }
+      }
     } catch (err) {
       console.error('Dashboard data error:', err);
     }

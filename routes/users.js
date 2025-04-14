@@ -5,25 +5,20 @@ const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 const authenticate = require('../middleware/auth');
 
-// Enhanced signup with input validation
+// Enhanced signup with input validation and initial balance
 router.post('/createaccount', async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, initial_balance } = req.body;
 
-    // Validation
     const errors = {};
     if (!username) errors.username = 'Username is required';
     if (!email) errors.email = 'Email is required';
     if (!password) errors.password = 'Password is required';
-    
+
     if (Object.keys(errors).length > 0) {
-      return res.status(400).json({ 
-        success: false,
-        errors 
-      });
+      return res.status(400).json({ success: false, errors });
     }
 
-    // Check if user exists
     const [existing] = await db.query(
       'SELECT id FROM users WHERE email = ?', 
       [email]
@@ -37,17 +32,14 @@ router.post('/createaccount', async (req, res) => {
       });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user
     const [result] = await db.query(
-      'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
-      [username, email, hashedPassword]
+      'INSERT INTO users (username, email, password_hash, initial_balance) VALUES (?, ?, ?, ?)',
+      [username, email, hashedPassword, initial_balance || 0]
     );
 
-    // Generate token
     const token = jwt.sign(
       { 
         userId: result.insertId, 
@@ -58,7 +50,6 @@ router.post('/createaccount', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Set HTTP-only cookie
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -92,7 +83,6 @@ router.post('/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validation
     if (!email || !password) {
       return res.status(400).json({ 
         success: false,
@@ -101,7 +91,6 @@ router.post('/signin', async (req, res) => {
       });
     }
 
-    // Find user
     const [users] = await db.query(
       'SELECT * FROM users WHERE email = ?',
       [email]
@@ -117,7 +106,6 @@ router.post('/signin', async (req, res) => {
 
     const user = users[0];
 
-    // Check password
     const isMatch = await bcrypt.compare(password, user.password_hash);
     if (!isMatch) {
       return res.status(401).json({ 
@@ -127,7 +115,6 @@ router.post('/signin', async (req, res) => {
       });
     }
 
-    // Generate token
     const token = jwt.sign(
       { 
         userId: user.id, 
@@ -138,7 +125,6 @@ router.post('/signin', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Set HTTP-only cookie
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -156,7 +142,7 @@ router.post('/signin', async (req, res) => {
         email: user.email
       },
       tokenInfo: {
-        expiresAt: Date.now() + 3600000 // 1 hour from now
+        expiresAt: Date.now() + 3600000
       }
     });
 
@@ -170,10 +156,9 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-// Enhanced token refresh
+// Token refresh
 router.post('/refresh', authenticate, (req, res) => {
   try {
-    // Generate new token with fresh expiration
     const newToken = jwt.sign(
       { 
         userId: req.user.userId, 
@@ -184,7 +169,6 @@ router.post('/refresh', authenticate, (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Set new cookie
     res.cookie('token', newToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -197,7 +181,7 @@ router.post('/refresh', authenticate, (req, res) => {
       success: true,
       token: newToken,
       tokenInfo: {
-        expiresAt: Date.now() + 3600000 // 1 hour from now
+        expiresAt: Date.now() + 3600000
       }
     });
   } catch (error) {
@@ -232,11 +216,11 @@ router.post('/signout', authenticate, (req, res) => {
   }
 });
 
-// Current user endpoint
+// Current user
 router.get('/me', authenticate, async (req, res) => {
   try {
     const [users] = await db.query(
-      'SELECT id, username, email, created_at FROM users WHERE id = ?',
+      'SELECT id, username, email, created_at, initial_balance FROM users WHERE id = ?',
       [req.user.userId]
     );
 
@@ -260,6 +244,26 @@ router.get('/me', authenticate, async (req, res) => {
       error: 'Internal server error',
       code: 'SERVER_ERROR'
     });
+  }
+});
+
+// 👇 Set initial balance route (appended)
+router.post('/set-initial-balance', authenticate, async (req, res) => {
+  const { initial_balance } = req.body;
+  if (initial_balance == null || isNaN(initial_balance)) {
+    return res.status(400).json({ success: false, error: 'Invalid balance' });
+  }
+
+  try {
+    await db.execute(
+      'UPDATE users SET initial_balance = ? WHERE id = ?',
+      [initial_balance, req.user.userId]
+    );
+
+    res.json({ success: true, message: 'Initial balance updated' });
+  } catch (err) {
+    console.error('Set balance error:', err);
+    res.status(500).json({ success: false, error: 'Failed to update balance' });
   }
 });
 
