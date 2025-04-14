@@ -198,4 +198,3 @@ async function deleteTransaction(id) {
     console.error("Error deleting:", err);
   }
 }
-
