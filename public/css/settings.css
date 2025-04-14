@@ -1,4 +1,4 @@
-/* Base Styling */
+/* Reset & Base Styling */
 * {
   margin: 0;
   padding: 0;
@@ -53,13 +53,15 @@ body {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  transition: background 0.3s, border-left 0.3s;
+  border-left: 4px solid transparent;
+  transition: background 0.3s, border-left 0.3s, padding-left 0.3s;
 }
 
 .sidebar-nav a:hover,
 .sidebar-nav .active a {
   background-color: #172c4d;
   border-left: 4px solid #1abc9c;
+  padding-left: 24px;
 }
 
 .sidebar-nav i {
@@ -90,6 +92,7 @@ body {
   flex: 1;
   padding: 30px;
   overflow-y: auto;
+  background-color: #f9fafc;
 }
 
 /* Header */
@@ -107,12 +110,23 @@ body {
   font-size: 16px;
 }
 
+/* Card Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
 /* Cards */
 .card {
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 30px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
 }
 
 .card-header {
@@ -151,15 +165,16 @@ body {
 .form-control {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
-  transition: border 0.3s;
+  transition: all 0.2s ease;
 }
 
 .form-control:focus {
   outline: none;
   border-color: #1abc9c;
+  box-shadow: 0 0 6px rgba(26, 188, 156, 0.3);
 }
 
 .checkbox-group {
@@ -184,6 +199,39 @@ body {
   color: #7f8c8d;
 }
 
+/* Floating Label Form Style */
+.floating-label-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.floating-label-group input {
+  padding: 14px 15px 14px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.floating-label-group label {
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  font-size: 16px;
+  color: #888;
+  pointer-events: none;
+  transition: 0.2s ease all;
+}
+
+.floating-label-group input:focus + label,
+.floating-label-group input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 10px;
+  font-size: 12px;
+  background: #f4f6f8;
+  padding: 0 5px;
+  color: #1abc9c;
+}
+
 /* Buttons */
 .btn {
   padding: 12px 24px;
@@ -191,20 +239,22 @@ body {
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s, box-shadow 0.2s;
   border: none;
-}
-
-.btn-primary {
   background-color: #1abc9c;
   color: white;
 }
 
-.btn-primary:hover {
+.btn:hover {
   background-color: #16a085;
+  box-shadow: 0 4px 12px rgba(26, 188, 156, 0.3);
 }
 
-/* Utility Classes */
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* Utility */
 .hr {
   border: none;
   border-top: 1px solid #eee;
@@ -214,24 +264,44 @@ body {
 /* Theme Selector */
 #themeSelect {
   appearance: none;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 15px;
+  font-size: 16px;
+  color: #2d3436;
 }
 
-/* Responsive Adjustments */
+/* Responsive */
 @media (max-width: 768px) {
   .dashboard-container {
     flex-direction: column;
   }
-  
+
   .sidebar {
     width: 100%;
     height: auto;
   }
-  
+
+  .sidebar-nav ul {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .sidebar-nav li {
+    flex: 1;
+  }
+
   .main-content {
     padding: 20px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
   }
 }
