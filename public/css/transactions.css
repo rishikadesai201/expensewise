@@ -1,4 +1,4 @@
-/* ============================================== */
+/* ============================================== */ 
 /* Enhanced Transactions Page - Matching Budget Styling */
 /* ============================================== */
 
@@ -7,7 +7,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif; 
 }
 
 body {
@@ -238,12 +238,12 @@ body {
 
 /* Transaction Type Colors */
 .income {
-  color: #2ecc71;
+  color: #28a745;
   font-weight: 500;
 }
 
 .expense {
-  color: #e74c3c;
+  color: #dc3545;
   font-weight: 500;
 }
 
@@ -252,16 +252,17 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
-  padding: 8px;
-  color: #7f8c8d;
-  transition: all 0.3s ease;
+  font-size: 1rem;
+  margin: 0 5px;
+  padding: 5px;
   border-radius: 50%;
   width: 32px;
   height: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: #7f8c8d;
+  transition: all 0.3s ease;
 }
 
 .btn-icon:hover {
@@ -270,7 +271,7 @@ body {
 }
 
 .btn-icon.danger {
-  color: #e74c3c;
+  color: #dc3545;
 }
 
 .btn-icon.danger:hover {
@@ -397,6 +398,24 @@ body {
 }
 
 @media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .sidebar-nav ul {
+    display: flex;
+  }
+
+  .sidebar-nav ul li {
+    flex: 1;
+  }
+
   .main-content {
     padding: 20px;
   }
@@ -409,18 +428,20 @@ body {
   
   .filter-form {
     grid-template-columns: 1fr;
+    flex-direction: column;
+    gap: 12px;
   }
-  
+
   .transactions-table {
     overflow-x: auto;
   }
-  
+
   .transactions-table table {
     min-width: 600px;
   }
-  
+
   .modal-content {
-    width: 95%;
+    width: 90%;
     padding: 20px;
   }
 }
@@ -429,7 +450,7 @@ body {
   .form-actions {
     flex-direction: column;
   }
-  
+
   .btn {
     width: 100%;
   }

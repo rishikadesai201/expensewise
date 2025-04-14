@@ -757,16 +757,17 @@ a {
   .dashboard-cards {
     grid-template-columns: 1fr;
   }
-  
-  .data-section, .additional-sections {
+
+  .data-section,
+  .additional-sections {
     grid-template-columns: 1fr;
   }
-  
+
   .pie-chart {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .pie-legend {
     width: 100%;
   }

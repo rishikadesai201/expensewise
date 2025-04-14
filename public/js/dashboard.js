@@ -7,15 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
 
       // Update user information
-      document.getElementById('username').textContent = data.user.username || 'User';
+      document.getElementById('username').textContent = data.user.username || data.user.name || 'User';
       document.getElementById('user-email').textContent = data.user.email || '';
 
-      // Update financial data
+      // Update financial stats
+      document.getElementById('total-balance').textContent = `$${data.totalBalance.toFixed(2)}`;
+      document.getElementById('monthly-limit').textContent = `$${data.monthlyLimit.toFixed(2)} monthlylimit`;
+      document.getElementById('balance-change').textContent = `${data.balanceChange > 0 ? '+' : ''}${data.balanceChange}% vs last month`;
+
       document.querySelector('.total-balance p').textContent = `$${data.totalBalance.toFixed(2)}`;
       document.querySelector('.income p').textContent = `$${data.totalIncome.toFixed(2)}`;
       document.querySelector('.expenses p').textContent = `$${data.totalExpense.toFixed(2)}`;
       document.querySelector('.budget-left p').textContent = `$${data.budgetLeft.toFixed(2)}`;
-      
+
       // Update progress bar
       document.querySelector('.budget-left .progress-bar').style.width = `${data.budgetUsedPercent}%`;
       document.querySelector('.budget-left .budget-text').textContent = 
@@ -27,14 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
       balanceChangeElement.innerHTML = `<i class="fas fa-arrow-${data.balanceChange > 0 ? 'up' : 'down'}"></i> ${Math.abs(data.balanceChange)}% from last month`;
       document.querySelector('.total-balance .card-content').appendChild(balanceChangeElement);
 
-      // Render other components
+      // Render UI components
       renderTransactions(data.recentTransactions);
       renderBudgetOverview(data.budgetBreakdown);
       renderGoals(data.goals);
-      
+
     } catch (err) {
       console.error('Dashboard data error:', err);
-      // Show error to user
       document.getElementById('username').textContent = 'Error loading data';
     }
   }
@@ -45,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       container.innerHTML = '<div class="transaction-item">No recent transactions</div>';
       return;
     }
-    
+
     container.innerHTML = transactions.map(tx => `
       <div class="transaction-item">
         <div class="transaction-icon">
@@ -85,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Create pie chart segments
     pieChart.innerHTML = budgets.map((b, i) => {
       const start = i === 0 ? 0 : budgets.slice(0, i).reduce((acc, curr) => acc + curr.usedPercent, 0);
       const end = start + b.usedPercent;
@@ -96,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
 
-    // Update legend
     const legend = document.querySelector('.pie-legend');
     legend.innerHTML = budgets.map(b => `
       <div class="legend-item">
@@ -129,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
       container.innerHTML = '<div class="goal-item">No active goals</div>';
       return;
     }
-    
+
     container.innerHTML = goals.map(goal => `
       <div class="goal-item">
         <div class="goal-info">
