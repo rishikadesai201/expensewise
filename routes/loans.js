@@ -13,23 +13,12 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST new loan
+// POST a new loan
 router.post('/', async (req, res) => {
   const { name, amount, lender, interest_rate, due_date } = req.body;
 
   if (!name || !amount || !lender || !interest_rate || !due_date) {
     return res.status(400).json({ message: 'All fields are required' });
-  }
-
-  // Validate numeric fields
-  if (isNaN(amount) || amount <= 0 || isNaN(interest_rate) || interest_rate <= 0) {
-    return res.status(400).json({ message: 'Amount and interest rate must be positive numbers' });
-  }
-
-  // Validate date
-  const date = new Date(due_date);
-  if (isNaN(date.getTime())) {
-    return res.status(400).json({ message: 'Invalid due date' });
   }
 
   try {

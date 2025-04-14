@@ -31,7 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(loan)
       });
 
-      if (!res.ok) throw new Error('Failed to add loan');
+      const result = await res.json();
+
+      if (!res.ok) throw new Error(result.message || 'Failed to add loan');
 
       form.reset();
       fetchLoans();
@@ -61,7 +63,7 @@ async function fetchLoans() {
       <ul class="loan-list">
         ${loans.map(loan => `
           <li class="loan-item">
-            <strong>${loan.name}</strong> - $${loan.amount.toFixed(2)} from ${loan.lender}<br>
+            <strong>${loan.name}</strong> - $${parseFloat(loan.amount).toFixed(2)} from ${loan.lender}<br>
             Interest: ${loan.interest_rate}% | Due: ${new Date(loan.due_date).toLocaleDateString()}
           </li>
         `).join('')}

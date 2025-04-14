@@ -57,16 +57,17 @@ const fullSQL = `
 );
 
 
-  CREATE TABLE IF NOT EXISTS loans (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    lender VARCHAR(100),
-    amount DECIMAL(10,2),
-    interest_rate DECIMAL(5,2),
-    due_date DATE,
-    monthly_payment DECIMAL(10,2),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-  );
+  
+CREATE TABLE IF NOT EXISTS loans (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  amount DECIMAL(10,2) NOT NULL,
+  lender VARCHAR(255) NOT NULL,
+  interest_rate FLOAT NOT NULL,
+  due_date DATE NOT NULL
+);
+
+
 
   CREATE TABLE IF NOT EXISTS investments (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -78,17 +79,17 @@ const fullSQL = `
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
 
-  CREATE TABLE IF NOT EXISTS shared_expenses (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    group_name VARCHAR(100),
-    description VARCHAR(255),
-    amount DECIMAL(10,2),
-    split_with JSON,
-    date DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-  );
+
+
+CREATE TABLE shared_expenses (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  amount DECIMAL(10,2) NOT NULL,
+  participants TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 
   CREATE TABLE IF NOT EXISTS user_preferences (
     user_id INT PRIMARY KEY,
