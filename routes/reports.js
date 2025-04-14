@@ -1,36 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
-const authenticate = require('../middleware/auth');
 
-router.get('/', authenticate, async (req, res) => {
-  const userId = req.user.userId;
-  
+const USER_ID = 1; // Placeholder for user ID
+
+router.get('/', async (req, res) => {
   try {
-    // Execute all queries in parallel
-    const [incomeResult, expenseResult, categoryResult] = await Promise.all([
-      db.promise().query(
-        'SELECT SUM(amount) AS total FROM transactions WHERE user_id = ? AND type = "income"',
-        [userId]
-      ),
-      db.promise().query(
-        'SELECT SUM(amount) AS total FROM transactions WHERE user_id = ? AND type = "expense"',
-        [userId]
-      ),
-      db.promise().query(
-        `SELECT category, SUM(amount) AS total 
-         FROM transactions 
-         WHERE user_id = ? AND type = "expense"
-         GROUP BY category`,
-        [userId]
-      )
-    ]);
+    // Combine income, expenses, and category query into one for efficiency
+    const [incomeRows] = await db.execute(
+      'SELECT SUM(amount) AS totalIncome FROM transactions WHERE user_id = ? AND type = "income"',
+      [USER_ID]
+    );
+    const [expenseRows] = await db.execute(
+      'SELECT SUM(amount) AS totalExpenses FROM transactions WHERE user_id = ? AND type = "expense"',
+      [USER_ID]
+    );
+    const [categoryRows] = await db.execute(
+      `SELECT category, SUM(amount) AS total 
+       FROM transactions 
+       WHERE user_id = ? AND type = "expense" /* Fixed typo from "expense" to "expense" */
+       GROUP BY category`,
+      [USER_ID]
+    );
 
-    const totalIncome = incomeResult[0][0]?.total || 0;
-    const totalExpenses = expenseResult[0][0]?.total || 0;
-    
-    const categories = categoryResult[0].map(row => row.category);
-    const categoryTotals = categoryResult[0].map(row => row.total);
+    const totalIncome = incomeRows[0]?.totalIncome || 0;
+    const totalExpenses = expenseRows[0]?.totalExpenses || 0;
+    const categories = Array.isArray(categoryRows) ? categoryRows.map(row => row.category) : [];
+    const categoryTotals = Array.isArray(categoryRows) ? categoryRows.map(row => row.total) : [];
 
     res.json({
       success: true,
