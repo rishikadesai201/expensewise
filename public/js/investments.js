@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         form.reset();
         loadInvestments();
       } else {
-        alert('Failed to add investment.');
+        alert('Failed to add investment: ' + result.message);
       }
     } catch (err) {
       console.error('Error adding investment:', err);

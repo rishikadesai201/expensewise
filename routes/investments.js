@@ -9,7 +9,7 @@ router.get('/', authenticate, async (req, res) => {
     const userId = req.user.userId;
 
     const [investments] = await db.execute(
-      'SELECT * FROM investments WHERE user_id = ? ORDER BY date DESC',
+      'SELECT * FROM investments WHERE user_id = ? ORDER BY purchase_date DESC',
       [userId]
     );
 
@@ -23,10 +23,10 @@ router.get('/', authenticate, async (req, res) => {
 // Post a new investment
 router.post('/', authenticate, async (req, res) => {
   try {
-    const { name, amount, type, date } = req.body;
+    const { name, amount, type, purchase_date } = req.body;
     const userId = req.user.userId;
 
-    if (!name || !amount || !type || !date) {
+    if (!name || !amount || !type || !purchase_date) {
       return res.status(400).json({ success: false, message: 'All fields are required' });
     }
 
@@ -35,8 +35,8 @@ router.post('/', authenticate, async (req, res) => {
     }
 
     await db.execute(
-      'INSERT INTO investments (user_id, name, amount, type, date) VALUES (?, ?, ?, ?, ?)',
-      [userId, name, amount, type, date]
+      'INSERT INTO investments (user_id, name, amount, type, purchase_date) VALUES (?, ?, ?, ?, ?)',
+      [userId, name, amount, type, purchase_date]
     );
 
     res.json({ success: true });
