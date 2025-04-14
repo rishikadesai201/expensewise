@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const title = document.getElementById('expenseTitle').value.trim();
     const amount = parseFloat(document.getElementById('expenseAmount').value);
-    const participants = document.getElementById('participants').value.split(',').map(p => p.trim()).filter(p => p);
+    const participants = document.getElementById('participants').value
+      .split(',')
+      .map(p => p.trim())
+      .filter(p => p);
 
     if (!title || isNaN(amount) || participants.length === 0) {
       return alert("Please fill in all fields correctly.");
@@ -33,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Error: ' + err.message);
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Add Expense';
+      submitBtn.textContent = 'Add Shared Expense';
     }
   });
 });
