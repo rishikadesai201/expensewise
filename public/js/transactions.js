@@ -96,7 +96,8 @@ async function handleTransactionSubmit(e) {
       closeTransactionModal();
       fetchTransactions();
     } else {
-      alert("Failed to add transaction.");
+      const errorData = await res.json();
+  alert(`Failed to add transaction: ${errorData.error || "Unknown error"}`);
     }
   } catch (err) {
     console.error("Transaction submission error:", err);
@@ -126,14 +127,16 @@ async function populateCategories() {
     const filterCat = document.getElementById("filterCategory");
     const formCat = document.getElementById("transactionCategory");
 
+    // Clear existing options
     filterCat.innerHTML = `<option value="">All Categories</option>`;
     formCat.innerHTML = `<option value="">Select category</option>`;
 
+    // Populate dropdowns with categories
     categories.forEach(cat => {
-      const opt1 = new Option(cat.name, cat.name);
-      const opt2 = new Option(cat.name, cat.name);
-      filterCat.appendChild(opt1);
-      formCat.appendChild(opt2);
+      const filterOption = new Option(cat.label, cat.value); // Use label for display, value for the value
+      const formOption = new Option(cat.label, cat.value);
+      filterCat.appendChild(filterOption);
+      formCat.appendChild(formOption);
     });
   } catch (err) {
     console.error("Error loading categories:", err);

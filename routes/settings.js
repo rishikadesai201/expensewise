@@ -9,7 +9,8 @@ const mockUserId = 1; // Replace with actual user ID from session/token
 // GET /api/settings - fetch user settings
 router.get('/', async (req, res) => {
   try {
-    const [user] = await db.query('SELECT username, email, monthly_budget AS monthlyBudget, notifications, theme FROM users WHERE id = ?', [mockUserId]);
+    const [rows] = await db.promise().query('SELECT username, email, monthly_budget AS monthlyBudget, notifications, theme FROM users WHERE id = ?', [mockUserId]);
+    const user = rows[0];
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     res.json({ success: true, settings: user });
@@ -38,7 +39,7 @@ router.put('/', async (req, res) => {
 
     updateValues.push(mockUserId); // For WHERE clause
 
-    await db.query(`UPDATE users SET ${updateFields} WHERE id = ?`, updateValues);
+    await db.promise().query(`UPDATE users SET ${updateFields} WHERE id = ?`, updateValues);
 
     res.json({ success: true, message: 'Settings updated' });
   } catch (err) {

@@ -1,0 +1,140 @@
+/* Base Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  body {
+    background-color: #f4f6f8;
+    color: #2d3436;
+  }
+  
+  /* Layout */
+  .dashboard-container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 240px;
+    background-color: #0f2a4a;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+  
+  .sidebar-header {
+    text-align: center;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid #34495e;
+  }
+  
+  .sidebar-header h1 {
+    font-size: 24px;
+    color: #ffffff;
+  }
+  
+  .sidebar-nav ul {
+    list-style: none;
+    padding: 20px 0;
+  }
+  
+  .sidebar-nav li {
+    margin-bottom: 15px;
+  }
+  
+  .sidebar-nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s, border-left 0.3s;
+  }
+  
+  .sidebar-nav a:hover,
+  .sidebar-nav .active a {
+    background-color: #172c4d;
+    border-left: 4px solid #1abc9c;
+  }
+  
+  .sidebar-nav i {
+    margin-right: 10px;
+  }
+  
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    padding: 30px;
+  }
+  
+  /* Header */
+  .dashboard-header {
+    margin-bottom: 30px;
+  }
+  
+  .dashboard-header h2 {
+    font-size: 28px;
+    color: #2d3436;
+  }
+  
+  .dashboard-header p {
+    color: #7f8c8d;
+    font-size: 16px;
+  }
+  
+  /* Cards Section */
+  .dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #2d3436;
+  }
+  
+  .card p {
+    font-size: 20px;
+    font-weight: 500;
+    color: #2d3436;
+  }
+  
+  /* Progress Bar */
+  .progress-bar {
+    background-color: #1abc9c;
+    height: 8px;
+    border-radius: 4px;
+    margin: 10px 0;
+  }
+  
+  /* Recent Transactions */
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .card-header i {
+    color: #1abc9c;
+  }
+  
+  .card-body p {
+    color: #7f8c8d;
+  }
+  

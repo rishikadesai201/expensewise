@@ -27,6 +27,8 @@ const loanRoutes = require('./routes/loans');
 const sharedRoutes = require('./routes/shared-expenses');
 const reportsRoutes = require('./routes/reports');
 const settingsRoutes = require('./routes/settings');
+const userRoutes = require('./routes/users');
+const categoriesRouter = require('./routes/categories');
 
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/budgets', budgetRoutes);
@@ -37,6 +39,8 @@ app.use('/api/loans', loanRoutes);
 app.use('/api/shared-expenses', sharedRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/users', userRoutes);
+app.use("/api/categories", categoriesRouter); 
 
 // --------- FRONTEND ROUTES (HTML pages) ---------
 
@@ -108,4 +112,5 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
+  
 });
