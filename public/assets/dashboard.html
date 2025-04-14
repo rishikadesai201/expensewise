@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="ExpenseWise Dashboard - Manage your income, expenses, and financial goals with ease." />
   <title>Dashboard - ExpenseWise</title>
-  <link rel="stylesheet" href="/css/dashboard.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
@@ -15,6 +15,7 @@
     <aside class="sidebar">
       <div class="sidebar-header">
         <h1><i class="fas fa-wallet"></i> ExpenseWise</h1>
+        
       </div>
       <nav class="sidebar-nav">
         <ul>
@@ -29,66 +30,257 @@
           <li><a href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
         </ul>
       </nav>
+      <div class="sidebar-footer">
+        <div class="app-version">v2.1.4</div>
+      </div>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
       <header class="dashboard-header">
-        <h2>Your Financial Overview</h2>
-        <p>Track your income, expenses, and set financial goals.</p>
+        <div class="header-content">
+          <h2>Your Financial Overview</h2>
+          <p>Welcome back! Here's what's happening with your finances today.</p>
+        </div>
+        <div class="header-actions">
+          <div class="date-selector">
+            <i class="fas fa-calendar-alt"></i>
+            <span>April 2023</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <button class="btn btn-notification">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge">3</span>
+          </button>
+        </div>
       </header>
 
+      <!-- Financial Overview Cards -->
       <section class="dashboard-cards">
-        <div class="card">
-          <h3>Total Balance</h3>
-          <p>$2,500</p>
+        <div class="card total-balance">
+          <div class="card-icon">
+            <i class="fas fa-piggy-bank"></i>
+          </div>
+          <div class="card-content">
+            <h3>Total Balance</h3>
+            <p>$2,500</p>
+            <span class="card-trend positive"><i class="fas fa-arrow-up"></i> 12% from last month</span>
+          </div>
         </div>
-        <div class="card">
-          <h3>Budget Left</h3>
-          <div class="progress-bar" style="width: 60%"></div>
-          <p>$300</p>
+        
+        <div class="card income">
+          <div class="card-icon">
+            <i class="fas fa-money-bill-wave"></i>
+          </div>
+          <div class="card-content">
+            <h3>Income</h3>
+            <p>$3,000</p>
+            <span class="card-trend positive"><i class="fas fa-arrow-up"></i> 8% from last month</span>
+          </div>
         </div>
-        <div class="card">
-          <h3>Income</h3>
-          <p>$3,000</p>
+        
+        <div class="card expenses">
+          <div class="card-icon">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <div class="card-content">
+            <h3>Expenses</h3>
+            <p>$500</p>
+            <span class="card-trend negative"><i class="fas fa-arrow-down"></i> 5% from last month</span>
+          </div>
         </div>
-        <div class="card">
-          <h3>Expenses</h3>
-          <p>$500</p>
+        
+        <div class="card budget-left">
+          <div class="card-icon">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="card-content">
+            <h3>Budget Left</h3>
+            <p>$300</p>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 60%"></div>
+            </div>
+            <span class="budget-text">60% of $500 remaining</span>
+          </div>
         </div>
       </section>
 
-      <section class="chart-section">
-        <div class="card chart-card">
-          <h3><i class="fas fa-chart-pie"></i> Expenses Distribution</h3>
-          <div class="pie-chart">
-            <div class="pie-inner">
-              <div class="pie-fill" style="transform: rotate(180deg);"></div>
+      <!-- Charts & Data Representation -->
+      <section class="data-section">
+        <div class="chart-card card">
+          <div class="card-header">
+            <h3><i class="fas fa-chart-pie"></i> Expenses Distribution</h3>
+            <div class="chart-filter">
+              <select class="form-control">
+                <option>This Month</option>
+                <option>Last Month</option>
+                <option>Last 3 Months</option>
+              </select>
             </div>
-            <div class="pie-content">
-              <span class="pie-label"></span>
-              <span class="pie-label"></span>
-              <span class="pie-label"></span>
-              <span class="pie-label"></span>
+          </div>
+          <div class="chart-container">
+            <div class="pie-chart">
+              <div class="pie-chart-inner">
+                <div class="pie-segment" style="--start: 0; --end: 40; --color: #1abc9c;"></div>
+                <div class="pie-segment" style="--start: 40; --end: 75; --color: #e74c3c;"></div>
+                <div class="pie-segment" style="--start: 75; --end: 100; --color: #f39c12;"></div>
+              </div>
+              <div class="pie-legend">
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #1abc9c;"></span>
+                  <span class="legend-label">Groceries (40%)</span>
+                  <span class="legend-value">$200</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #e74c3c;"></span>
+                  <span class="legend-label">Rent (35%)</span>
+                  <span class="legend-value">$175</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #f39c12;"></span>
+                  <span class="legend-label">Entertainment (25%)</span>
+                  <span class="legend-value">$125</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="card">
-          <h3><i class="fas fa-list"></i> Recent Transactions</h3>
-          <ul class="transaction-list">
-            <li>Grocery - $50</li>
-            <li>Rent - $1200</li>
-            <li>Dining Out - $45</li>
-            <li>Movie Night - $30</li>
-            <li>Subscription - $10</li>
-            <li>Electricity Bill - $75</li>
-          </ul>
+        <div class="transactions-card card">
+          <div class="card-header">
+            <h3><i class="fas fa-list"></i> Recent Transactions</h3>
+            <a href="/transactions" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <div class="transactions-list">
+            <div class="transaction-item">
+              <div class="transaction-icon">
+                <i class="fas fa-shopping-basket"></i>
+              </div>
+              <div class="transaction-details">
+                <span class="transaction-title">Grocery Shopping</span>
+                <span class="transaction-category">Groceries</span>
+              </div>
+              <div class="transaction-amount negative">-$50.00</div>
+            </div>
+            <div class="transaction-item">
+              <div class="transaction-icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <div class="transaction-details">
+                <span class="transaction-title">Monthly Rent</span>
+                <span class="transaction-category">Housing</span>
+              </div>
+              <div class="transaction-amount negative">-$1,200.00</div>
+            </div>
+            <div class="transaction-item">
+              <div class="transaction-icon">
+                <i class="fas fa-utensils"></i>
+              </div>
+              <div class="transaction-details">
+                <span class="transaction-title">Dinner Out</span>
+                <span class="transaction-category">Dining</span>
+              </div>
+              <div class="transaction-amount negative">-$45.00</div>
+            </div>
+            <div class="transaction-item">
+              <div class="transaction-icon">
+                <i class="fas fa-film"></i>
+              </div>
+              <div class="transaction-details">
+                <span class="transaction-title">Movie Night</span>
+                <span class="transaction-category">Entertainment</span>
+              </div>
+              <div class="transaction-amount negative">-$30.00</div>
+            </div>
+            <div class="transaction-item">
+              <div class="transaction-icon">
+                <i class="fas fa-music"></i>
+              </div>
+              <div class="transaction-details">
+                <span class="transaction-title">Music Subscription</span>
+                <span class="transaction-category">Subscriptions</span>
+              </div>
+              <div class="transaction-amount negative">-$10.00</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Additional Sections -->
+      <section class="additional-sections">
+        <div class="goals-card card">
+          <div class="card-header">
+            <h3><i class="fas fa-bullseye"></i> Financial Goals</h3>
+            <a href="/goals" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <div class="goals-list">
+            <div class="goal-item">
+              <div class="goal-info">
+                <span class="goal-title">Emergency Fund</span>
+                <div class="goal-progress">
+                  <div class="progress-bar" style="width: 65%"></div>
+                </div>
+                <span class="goal-amount">$3,250 of $5,000</span>
+              </div>
+              <div class="goal-percentage">65%</div>
+            </div>
+            <div class="goal-item">
+              <div class="goal-info">
+                <span class="goal-title">New Laptop</span>
+                <div class="goal-progress">
+                  <div class="progress-bar" style="width: 30%"></div>
+                </div>
+                <span class="goal-amount">$300 of $1,000</span>
+              </div>
+              <div class="goal-percentage">30%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-card card">
+          <div class="card-header">
+            <h3><i class="fas fa-history"></i> Recent Activity</h3>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon positive">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="activity-details">
+                <span class="activity-title">Payment received</span>
+                <span class="activity-description">From Client A for Project X</span>
+                <span class="activity-time">2 hours ago</span>
+              </div>
+              <div class="activity-amount positive">+$1,000.00</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon negative">
+                <i class="fas fa-credit-card"></i>
+              </div>
+              <div class="activity-details">
+                <span class="activity-title">Bill payment</span>
+                <span class="activity-description">Electricity bill for March</span>
+                <span class="activity-time">Yesterday</span>
+              </div>
+              <div class="activity-amount negative">-$200.00</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon neutral">
+                <i class="fas fa-sync-alt"></i>
+              </div>
+              <div class="activity-details">
+                <span class="activity-title">Fund transfer</span>
+                <span class="activity-description">To savings account</span>
+                <span class="activity-time">2 days ago</span>
+              </div>
+              <div class="activity-amount">-$500.00</div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
   </div>
 
-  <script src="/js/dashboard.js"></script>
+  <script src="js/dashboard.js"></script>
 </body>
 </html>

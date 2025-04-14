@@ -2,12 +2,14 @@
   --primary-color: #00b4d8;
   --primary-hover: #0096c7;
   --accent-color: #90e0ef;
-  --background-color: #0d1b2a;
-  --card-bg: #1b263b;
+  --background-color: #0d0d12; /* Match SignIn background color */
+  --card-bg: #1b1b24; /* Match SignIn background color */
   --text-color: #e0e0e0;
   --secondary-text: #9ca3af;
   --input-bg: #1e293b;
   --input-border: #334155;
+  --glow-light: #00b4d888;
+  --glow-medium: #00b4d855;
 }
 
 /* Base styles */
@@ -19,24 +21,42 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background-color: var(--background-color);
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background-color); /* Match SignIn background */
   color: var(--text-color);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-image: radial-gradient(circle at top left, #1a1a2e, var(--background-color)); /* Same gradient as SignIn */
+  overflow: hidden;
 }
 
 /* Auth container */
 .auth-container {
-  background: var(--card-bg);
+  background: var(--card-bg); /* Same background color as SignIn */
   padding: 2.5rem;
   border-radius: 16px;
-  box-shadow: 0 0 20px rgba(0, 180, 216, 0.1);
+  box-shadow: 0 0 20px rgba(0, 180, 216, 0.1), 0 0 12px var(--glow-light);
   max-width: 400px;
   width: 100%;
   text-align: center;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  animation: fadeIn 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
 }
 
 /* Logo styles */
@@ -87,11 +107,13 @@ body {
   font-size: 1rem;
   color: var(--text-color);
   outline: none;
+  transition: all 0.3s ease;
 }
 
 .auth-form input:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(0, 180, 216, 0.3);
+  background-color: var(--input-bg);
 }
 
 /* Password toggle */
@@ -117,17 +139,20 @@ body {
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  color: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 transparent;
+}
+
+.btn:hover {
+  box-shadow: 0 0 12px var(--glow-light);
+  transform: translateY(-1px);
 }
 
 .btn.primary {
   background-color: var(--primary-color);
   color: #fff;
-  box-shadow: 0 0 10px rgba(0, 180, 216, 0.3);
-}
-
-.btn.primary:hover {
-  background-color: var(--primary-hover);
-  box-shadow: 0 0 12px rgba(0, 180, 216, 0.4);
 }
 
 .btn.full {
