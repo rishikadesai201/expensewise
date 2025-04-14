@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 
-// Assuming a static user_id (For now, this can be dynamic with proper auth)
-const USER_ID = 1; // Placeholder for the authenticated user
+const USER_ID = 1; // Replace with real user ID from auth later
 
-// Get all budgets
+// GET all budgets
 router.get('/', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM budgets WHERE user_id = ?', [USER_ID]);
@@ -16,30 +15,31 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Add a new budget
+// POST new budget
 router.post('/', async (req, res) => {
-  const { category, limit } = req.body; // Expect 'category' and 'limit' fields
+  console.log('📥 Received POST /api/budgets');
+  console.log('Request body:', req.body);
 
-  if (!category || !limit) {
-    return res.status(400).json({ message: 'Category and limit are required' });
-  }
+  const { category, amount } = req.body;
+  const numericAmount = parseFloat(amount);
 
-  if (isNaN(limit) || limit <= 0) {
-    return res.status(400).json({ message: 'Limit must be a positive number' });
+  if (!category || isNaN(numericAmount) || numericAmount <= 0) {
+    console.warn('❌ Invalid input:', { category, amount });
+    return res.status(400).json({ message: 'Category and valid amount are required' });
   }
 
   try {
     const [result] = await db.execute(
-      'INSERT INTO budgets (user_id, category, amount) VALUES (?, ?, ?)', // 'amount' field remains in DB schema
-      [USER_ID, category, limit] // Use 'limit' instead of 'amount'
+      'INSERT INTO budgets (user_id, category, amount) VALUES (?, ?, ?)',
+      [USER_ID, category, numericAmount]
     );
     res.status(201).json({
       message: 'Budget added successfully',
       budgetId: result.insertId
     });
   } catch (err) {
-    console.error('Failed to insert budget:', err);
-    res.status(500).json({ message: 'Error saving budget', error: err.message });
+    console.error('🔥 Failed to save budget:', err);
+    res.status(500).json({ message: 'Database error', error: err.message });
   }
 });
 
