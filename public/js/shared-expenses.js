@@ -1,57 +1,71 @@
-document.getElementById('sharedExpenseForm').addEventListener('submit', function(event) {
-  event.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+  fetchSharedExpenses();
 
-  const title = document.getElementById('expenseTitle').value;
-  const amount = parseFloat(document.getElementById('expenseAmount').value);
-  const paidBy = document.getElementById('paidBy').value;
-  const participants = document.getElementById('participants').value;
+  const form = document.getElementById('sharedExpenseForm');
+  const submitBtn = form.querySelector('button[type="submit"]');
 
-  const expenseData = {
-    title: title,
-    amount: amount,
-    paid_by: paidBy,
-    participants: participants
-  };
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  // Send a POST request to the backend API
-  fetch('/api/shared-expenses', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(expenseData)
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.message) {
-      alert('Expense added successfully!');
-      loadSharedExpenses(); // Reload expenses after adding a new one
-    } else {
-      alert('Failed to add expense: ' + data.error);
+    const title = document.getElementById('expenseTitle').value.trim();
+    const amount = parseFloat(document.getElementById('expenseAmount').value);
+    const paidBy = document.getElementById('paidBy').value.trim();
+    const participants = document.getElementById('participants').value
+      .split(',')
+      .map(p => p.trim())
+      .filter(p => p);
+
+    if (!title || isNaN(amount) || amount <= 0 || !paidBy || participants.length === 0) {
+      return alert("Please fill in all fields correctly.");
     }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('Error submitting the expense.');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Adding...';
+
+    try {
+      const res = await fetch('/api/shared-expenses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, amount, paid_by: paidBy, participants })
+      });
+
+      if (!res.ok) throw new Error('Failed to save expense');
+
+      form.reset();
+      fetchSharedExpenses();
+    } catch (err) {
+      alert('Error: ' + err.message);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Add Shared Expense';
+    }
   });
 });
 
-// Function to load shared expenses and display them in the history section
-function loadSharedExpenses() {
-  fetch('/api/shared-expenses')
-    .then(response => response.json())
-    .then(data => {
-      const listElement = document.getElementById('sharedExpenseList');
-      listElement.innerHTML = ''; // Clear the current list
-      data.forEach(expense => {
-        const expenseItem = document.createElement('div');
-        expenseItem.classList.add('expense-item');
-        expenseItem.innerHTML = `<h5>${expense.title}</h5><p>Amount: $${expense.amount}</p><p>Paid By: ${expense.paid_by}</p>`;
-        listElement.appendChild(expenseItem);
-      });
-    })
-    .catch(error => console.error('Error loading shared expenses:', error));
-}
+async function fetchSharedExpenses() {
+  const list = document.getElementById('sharedExpenseList');
+  list.innerHTML = '<p>Loading shared expenses...</p>';
 
-// Load expenses when the page loads
-loadSharedExpenses();
+  try {
+    const res = await fetch('/api/shared-expenses');
+    const data = await res.json();
+
+    if (!data.length) {
+      list.innerHTML = '<p>No shared expenses found.</p>';
+      return;
+    }
+
+    list.innerHTML = `
+      <ul class="shared-expense-list">
+        ${data.map(exp => `
+          <li class="shared-expense-item">
+            <strong>${exp.title}</strong> - $${exp.amount.toFixed(2)}<br/>
+            <em>Paid by: ${exp.paid_by}</em><br/>
+            Participants: ${exp.participants.join(', ')}
+          </li>
+        `).join('')}
+      </ul>`;
+  } catch (err) {
+    list.innerHTML = '<p>Error loading shared expenses.</p>';
+  }
+}
