@@ -81,6 +81,7 @@ const fullSQL = `
     amount DECIMAL(10,2),
     split_with JSON,
     date DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
 
