@@ -42,8 +42,8 @@
         <div class="card-body">
           <form id="transactionForm">
             <div class="form-group">
-              <label for="transactionType" id="transactionTypeLabel">Type</label>
-              <select id="transactionType" class="form-control" aria-labelledby="transactionTypeLabel" required>
+              <label for="transactionType">Type</label>
+              <select id="transactionType" class="form-control" required>
                 <option value="">Select type</option>
                 <option value="income">Income</option>
                 <option value="expense">Expense</option>
@@ -56,15 +56,10 @@
             </div>
 
             <div class="form-group">
-              <label id="transactionCategoryLabel" for="transactionCategory">Category</label>
-              <select id="transactionCategory" class="form-control" aria-labelledby="transactionCategoryLabel" required>
-                <option value="#">Select category</option>
-                <option value="food">Food</option>
-                <option value="bills">Utility Bills</option>
-                <option value="travel">Travel</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="health">Health</option>
-                <option value="other">Other</option>
+              <label for="transactionCategory">Category</label>
+              <select id="transactionCategory" class="form-control" required>
+                <option value="">Select type first</option>
+                
               </select>
             </div>
 
@@ -84,8 +79,11 @@
             </div>
 
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Add Transaction</button>
-              <a href="/transactions" class="btn btn-secondary" role="button" aria-label="Cancel and return to transactions">Cancel</a>
+              <button type="submit" class="btn btn-primary" id="submitBtn">
+                <span id="submitText">Add Transaction</span>
+                <span id="spinner" class="spinner" style="display: none;">⌛</span>
+              </button>
+              <a href="/transactions" class="btn btn-secondary">Cancel</a>
             </div>
           </form>
         </div>
