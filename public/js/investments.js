@@ -4,7 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const loadInvestments = async () => {
     try {
-      const res = await fetch('/api/investments');
+      const token = Auth.getToken();
+      const res = await fetch('/api/investments', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (res.status === 401) {
+        Auth.redirectToLogin();
+        return;
+      }
+
       const data = await res.json();
       if (data.success && data.investments.length > 0) {
         listContainer.innerHTML = '';
@@ -37,22 +48,38 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
+      const token = Auth.getToken();
       const res = await fetch('/api/investments', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(newInvestment)
       });
+
+      if (res.status === 401) {
+        Auth.redirectToLogin();
+        return;
+      }
+
       const result = await res.json();
       if (result.success) {
         form.reset();
         loadInvestments();
       } else {
-        alert('Failed to add investment: ' + result.message);
+        alert('Failed to add investment: ' + (result.message || 'Unknown error'));
       }
     } catch (err) {
       console.error('Error adding investment:', err);
+      alert('Error adding investment. Please try again.');
     }
   });
 
-  loadInvestments();
+  // Check auth before loading investments
+  Auth.checkAuth().then(isAuthenticated => {
+    if (isAuthenticated) {
+      loadInvestments();
+    }
+  });
 });
