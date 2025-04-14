@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
 
       document.getElementById('username').textContent = data.user.name || 'User';
-      document.getElementById('total-balance').textContent = $${data.totalBalance.toFixed(2)};
-      document.getElementById('monthly-limit').textContent = $${data.monthlyLimit.toFixed(2)} monthly limit;
-      document.getElementById('balance-change').textContent = ${data.balanceChange > 0 ? '+' : ''}${data.balanceChange}% vs last month;
+      document.getElementById('total-balance').textContent = `$${data.totalBalance.toFixed(2)}`;
+      document.getElementById('monthly-limit').textContent = `$${data.monthlyLimit.toFixed(2)} monthlylimit`;
+      document.getElementById('balance-change').textContent = `${data.balanceChange > 0 ? '+' : ''}${data.balanceChange}% vs lastmonth`;
 
-      document.getElementById('budget-left').textContent = $${data.budgetLeft.toFixed(2)};
-      document.getElementById('budget-progress').style.width = ${data.budgetUsedPercent}%;
+      document.getElementById('budget-left').textContent = `$${data.budgetLeft.toFixed(2)}`;
+      document.getElementById('budget-progress').style.width = `${data.budgetUsedPercent}%`;
 
-      document.getElementById('total-income').textContent = $${data.totalIncome.toFixed(2)};
+      document.getElementById('total-income').textContent = `$${data.totalIncome.toFixed(2)}`;
       document.getElementById('active-goals').textContent = data.activeGoals;
 
       renderTransactions(data.recentTransactions);
