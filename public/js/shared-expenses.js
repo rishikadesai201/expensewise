@@ -9,12 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const title = document.getElementById('expenseTitle').value.trim();
     const amount = parseFloat(document.getElementById('expenseAmount').value);
+    const paidBy = document.getElementById('paidBy').value.trim();
     const participants = document.getElementById('participants').value
       .split(',')
       .map(p => p.trim())
       .filter(p => p);
 
-    if (!title || isNaN(amount) || participants.length === 0) {
+    if (!title || isNaN(amount) || amount <= 0 || !paidBy || participants.length === 0) {
       return alert("Please fill in all fields correctly.");
     }
 
@@ -25,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/api/shared-expenses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, amount, participants })
+        body: JSON.stringify({ title, amount, paid_by: paidBy, participants })
       });
 
       if (!res.ok) throw new Error('Failed to save expense');
@@ -59,6 +60,7 @@ async function fetchSharedExpenses() {
         ${data.map(exp => `
           <li class="shared-expense-item">
             <strong>${exp.title}</strong> - $${exp.amount.toFixed(2)}<br/>
+            <em>Paid by: ${exp.paid_by}</em><br/>
             Participants: ${exp.participants.join(', ')}
           </li>
         `).join('')}

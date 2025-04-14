@@ -6,8 +6,6 @@ const db = require('../config/db');
 router.get('/', async (req, res) => {
   try {
     const [rows] = await db.execute('SELECT * FROM shared_expenses ORDER BY created_at DESC');
-
-    // Convert comma-separated participants back into array
     const formatted = rows.map(item => ({
       ...item,
       participants: item.participants ? item.participants.split(',').map(p => p.trim()) : []
@@ -22,17 +20,17 @@ router.get('/', async (req, res) => {
 
 // POST a new shared expense
 router.post('/', async (req, res) => {
-  const { title, amount, participants } = req.body;
+  const { title, amount, paid_by, participants } = req.body;
 
-  if (!title || !amount || !participants || !Array.isArray(participants) || participants.length === 0) {
+  if (!title || !amount || !paid_by || !participants || !Array.isArray(participants) || participants.length === 0) {
     return res.status(400).json({ message: 'Invalid input. All fields must be provided.' });
   }
 
   try {
-    const participantsStr = participants.join(', '); // Store as comma-separated string
+    const participantsStr = participants.join(', ');
     await db.execute(
-      'INSERT INTO shared_expenses (title, amount, participants) VALUES (?, ?, ?)',
-      [title, amount, participantsStr]
+      'INSERT INTO shared_expenses (title, amount, paid_by, participants) VALUES (?, ?, ?, ?)',
+      [title, amount, paid_by, participantsStr]
     );
 
     res.status(201).json({ message: 'Shared expense added' });
