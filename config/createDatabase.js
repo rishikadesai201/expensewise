@@ -53,7 +53,6 @@ const fullSQL = `
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-
   
 CREATE TABLE IF NOT EXISTS loans (
   id INT AUTO_INCREMENT PRIMARY KEY,

@@ -17,14 +17,14 @@ router.get('/', async (req, res) => {
 
 // POST new budget
 router.post('/', async (req, res) => {
-  console.log('📥 Received POST /api/budgets');
+  console.log('Received POST /api/budgets');
   console.log('Request body:', req.body);
 
   const { category, amount } = req.body;
   const numericAmount = parseFloat(amount);
 
   if (!category || isNaN(numericAmount) || numericAmount <= 0) {
-    console.warn('❌ Invalid input:', { category, amount });
+    console.warn('Invalid input:', { category, amount });
     return res.status(400).json({ message: 'Category and valid amount are required' });
   }
 
@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
       budgetId: result.insertId
     });
   } catch (err) {
-    console.error('🔥 Failed to save budget:', err);
+    console.error('Failed to save budget:', err);
     res.status(500).json({ message: 'Database error', error: err.message });
   }
 });
