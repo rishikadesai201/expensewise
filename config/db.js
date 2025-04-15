@@ -1,7 +1,5 @@
-// config/db.js
-const mysql = require('mysql2/promise');
 
-// Create a connection pool (recommended for production)
+const mysql = require('mysql2/promise');
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -12,12 +10,11 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// Test the connection
 (async () => {
   try {
     const connection = await pool.getConnection();
     console.log('Connected to MySQL');
-    connection.release(); // Release the connection back to the pool
+    connection.release(); 
   } catch (err) {
     console.error('Error connecting to MySQL:', err);
   }

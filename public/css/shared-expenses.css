@@ -1,5 +1,4 @@
-/* === Goals Page CSS === */
-/* General Styling - Applies to all pages */
+
 * {
   margin: 0;
   padding: 0;
@@ -8,11 +7,10 @@
 }
 
 body {
-  background-color: #121212; /* Dark background */
-  color: #f0f0f0; /* Light text */
+  background-color: #121212; 
 }
 
-/* Button Styles */
+
 .btn {
   padding: 10px 16px;
   border: none;
@@ -23,12 +21,12 @@ body {
 }
 
 .btn-primary {
-  background-color: #1abc9c; /* Green accent */
+  background-color: #1abc9c; 
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background-color: #16a085; /* Darker green */
+  background-color: #16a085; 
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(26, 188, 156, 0.3);
 }
@@ -72,13 +70,13 @@ body {
   box-shadow: 0 0 0 2px rgba(26, 188, 156, 0.2);
 }
 
-/* Layout Containers */
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar */
+
 .sidebar {
   width: 300px;
   background-color: #1f3a57;
@@ -90,7 +88,7 @@ body {
 }
 
 .sidebar:hover {
-  box-shadow: 0 0 30px rgba(0, 180, 216, 0.8); /* More glow on hover */
+  box-shadow: 0 0 30px rgba(0, 180, 216, 0.8); 
 }
 
 .sidebar-header {
@@ -138,7 +136,7 @@ body {
   margin-right: 10px;
 }
 
-/* Main Content */
+
 .main-content {
   padding: 30px;
   flex: 1;
@@ -165,9 +163,9 @@ body {
   font-size: 16px;
 }
 
-/* Card Component */
+
 .card {
-  background-color: #333840; /* Keeping dark background to match theme */
+  background-color: #333840; 
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   padding: 24px;
@@ -176,7 +174,7 @@ body {
 }
 
 .card:hover {
-  box-shadow: 0 0 20px rgba(52, 152, 219, 0.6); /* Light glow effect on hover */
+  box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);  
 }
 
 .card-header {
@@ -186,7 +184,7 @@ body {
   margin-bottom: 16px;
   font-weight: 600;
   font-size: 18px;
-  color: #fff; /* Keeping header text light */
+  color: #fff; 
 }
 
 .card-body p {
@@ -195,14 +193,13 @@ body {
   font-size: 15px;
 }
 
-/* Budget List (Placeholder or real list) */
+
 #budgets-list {
   padding: 12px 0;
   font-size: 15px;
-  color: #555555; /* Slightly lighter text for lists */
+  color: #555555; 
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .dashboard-container {
       flex-direction: column;

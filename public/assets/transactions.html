@@ -40,7 +40,7 @@
         </div>
       </header>
 
-      <!-- Filter Controls -->
+
       <section class="filters card">
         <form id="filterForm" class="filter-form">
           <select id="filterType" class="form-control">
@@ -50,7 +50,7 @@
           </select>
           <select id="filterCategory" class="form-control">
             <option value="">All Categories</option>
-            <!-- Dynamically populated -->
+   
           </select>
           <input type="date" id="filterFromDate" class="form-control" />
           <input type="date" id="filterToDate" class="form-control" />
@@ -59,7 +59,7 @@
         </form>
       </section>
 
-      <!-- Transactions Table -->
+      
       <section class="transactions-table card">
         <div class="card-header">
           <h3><i class="fas fa-list"></i> Transaction History</h3>
@@ -85,7 +85,7 @@
     </main>
   </div>
 
-  <!-- Transaction Modal -->
+
   <div class="modal" id="addTransactionModal">
     <div class="modal-overlay" onclick="closeTransactionModal()"></div>
     <div class="modal-content">
@@ -110,7 +110,7 @@
           <label for="transactionCategory">Category</label>
           <select id="transactionCategory" class="form-control" required>
             <option value="">Select category</option>
-            <!-- Populated dynamically -->
+        
           </select>
         </div>
         <div class="form-group">
@@ -132,11 +132,11 @@
   <script src="/js/transactions.js"></script>
   <script>
     async function editTransaction(id) {
-    // You'll need to implement this
+    
     alert('Edit functionality coming soon!');
 }
 
-// Initialize date fields
+
 document.getElementById('transactionDate').valueAsDate = new Date();
     function openTransactionModal() {
       document.getElementById('addTransactionModal').classList.add('open');
@@ -146,7 +146,7 @@ document.getElementById('transactionDate').valueAsDate = new Date();
       document.getElementById('addTransactionModal').classList.remove('open');
     }
 
-    // Close modal with Esc key
+
     document.addEventListener('keydown', function(event) {
       if (event.key === "Escape") {
         closeTransactionModal();

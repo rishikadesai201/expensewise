@@ -1,7 +1,4 @@
-/* === Loans Page Styles - Consistent with Budget Page === */
-/* ====================================================== */
 
-/* Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -15,13 +12,12 @@ body {
   line-height: 1.6;
 }
 
-/* Layout Structure */
 .dashboard-container {
   display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar - Unchanged from your original */
+
 .sidebar {
   width: 300px;
   background-color: #1f3a57;
@@ -76,7 +72,7 @@ body {
   margin-right: 10px;
 }
 
-/* Main Content - Enhanced to match Budget page */
+
 .main-content {
   flex: 1;
   padding: 30px;
@@ -108,7 +104,7 @@ body {
   font-size: 16px;
 }
 
-/* Card Components - Matching Budget style */
+
 .card {
   background-color: #333840;
   border-radius: 12px;
@@ -148,7 +144,7 @@ body {
   padding: 5px 0;
 }
 
-/* Loan Form - Enhanced */
+
 #loanForm {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -185,7 +181,7 @@ body {
   box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
 }
 
-/* Buttons - Matching Budget style */
+
 .btn {
   padding: 12px 20px;
   border-radius: 8px;
@@ -213,7 +209,7 @@ body {
   box-shadow: 0 4px 15px rgba(26, 188, 156, 0.4);
 }
 
-/* Loan List - Enhanced to match Budget style */
+
 #loan-list {
   display: flex;
   flex-direction: column;
@@ -228,7 +224,7 @@ body {
   justify-content: space-between;
   align-items: center;
   transition: all 0.3s ease;
-  border-left: 4px solid #1abc9c; /* Red for loans to differentiate */
+  border-left: 4px solid #1abc9c; 
 }
 
 .loan-item:hover {
@@ -279,7 +275,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #e74c3c, #c0392b); /* Red gradient for loans */
+  background: linear-gradient(90deg, #e74c3c, #c0392b); 
   border-radius: 4px;
   transition: width 0.5s ease;
 }
@@ -309,7 +305,7 @@ body {
   color: #1abc9c;
 }
 
-/* Empty State - Matching Budget style */
+
 .empty-state {
   text-align: center;
   padding: 30px;
@@ -326,7 +322,6 @@ body {
   font-size: 16px;
 }
 
-/* Responsive Design */
 @media (max-width: 992px) {
   .dashboard-container {
     flex-direction: column;

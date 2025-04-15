@@ -1,8 +1,4 @@
-/* ============================================== */
-/* Add Transaction Page - Matching Budget Styling */
-/* ============================================== */
 
-/* Base Styles (Matching Budget Page) */
 * {
   margin: 0;
   padding: 0;
@@ -16,7 +12,7 @@ body {
   line-height: 1.6;
 }
 
-/* Layout Structure (Keep Sidebar Original) */
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
@@ -30,7 +26,7 @@ body {
   overflow-y: auto;
 }
 
-/* Header Styles (Matching Budget) */
+
 .dashboard-header {
   margin-bottom: 30px;
 }
@@ -48,7 +44,7 @@ body {
   font-size: 16px;
 }
 
-/* Card Components (Enhanced Budget Style) */
+
 .card {
   background-color: #333840;
   border-radius: 12px;
@@ -64,7 +60,7 @@ body {
   box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
 }
 
-/* Form Styles (Matching Budget) */
+
 #transactionForm {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -100,12 +96,12 @@ body {
   box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
 }
 
-/* Full-width form groups */
+
 .form-group.full-width {
   grid-column: 1 / -1;
 }
 
-/* Buttons (Matching Budget) */
+
 .btn {
   padding: 12px 20px;
   border-radius: 8px;
@@ -148,7 +144,7 @@ body {
   margin-top: 10px;
 }
 
-/* File Input Customization */
+
 input[type="file"]::-webkit-file-upload-button {
   background-color: #3a3f4a;
   color: #f0f0f0;
@@ -164,7 +160,6 @@ input[type="file"]::-webkit-file-upload-button:hover {
   background-color: #444950;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   #transactionForm {
     grid-template-columns: 1fr;
@@ -184,7 +179,7 @@ input[type="file"]::-webkit-file-upload-button:hover {
   }
 }
 
-/* Original Sidebar Styles (Unchanged) */
+
 .sidebar {
   width: 300px;
   background-color: #1f3a57;

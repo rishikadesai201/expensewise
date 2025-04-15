@@ -1,5 +1,4 @@
-/* === Goals Page CSS === */
-/* General Styling - Applies to all pages */
+
 * {
   margin: 0;
   padding: 0;
@@ -8,8 +7,8 @@
 }
 
 body {
-  background-color: #121212; /* Dark background */
-  color: #f0f0f0; /* Light text */
+  background-color: #121212; 
+  color: #f0f0f0; 
 }
 
 /* Button Styles */
@@ -23,12 +22,12 @@ body {
 }
 
 .btn-primary {
-  background-color: #1abc9c; /* Green accent */
+  background-color: #1abc9c; 
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background-color: #16a085; /* Darker green */
+  background-color: #16a085; 
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(26, 188, 156, 0.3);
 }
@@ -43,7 +42,7 @@ body {
   background-color: rgba(26, 188, 156, 0.1);
 }
 
-/* Form Controls */
+
 .form-group {
   margin-bottom: 20px;
 }
@@ -72,13 +71,13 @@ body {
   box-shadow: 0 0 0 2px rgba(26, 188, 156, 0.2);
 }
 
-/* Layout Containers */
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar */
+
 .sidebar {
   width: 300px;
   background-color: #1f3a57;
@@ -90,7 +89,7 @@ body {
 }
 
 .sidebar:hover {
-  box-shadow: 0 0 30px rgba(0, 180, 216, 0.8); /* More glow on hover */
+  box-shadow: 0 0 30px rgba(0, 180, 216, 0.8); 
 }
 
 .sidebar-header {
@@ -132,7 +131,7 @@ body {
   margin-right: 10px;
 }
 
-/* Main Content */
+
 .main-content {
   padding: 30px;
   flex: 1;
@@ -159,7 +158,7 @@ body {
   font-size: 16px;
 }
 
-/* === Card Component === */
+
 .card {
   background-color: #333840;
   border-radius: 12px;
@@ -195,7 +194,7 @@ body {
   font-size: 18px;
 }
 
-/* === Form === */
+
 .form-group {
   margin-bottom: 20px;
 }
@@ -224,13 +223,13 @@ body {
   box-shadow: 0 0 0 2px rgba(26, 188, 156, 0.2);
 }
 
-/* === Investment List === */
+
 #investment-list {
   font-size: 15px;
   color: #ccc;
 }
 
-/* === Responsive === */
+
 @media (max-width: 768px) {
   .dashboard-container {
     flex-direction: column;

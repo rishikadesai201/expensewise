@@ -193,8 +193,6 @@ const authenticate = async (req, res, next) => {
 authenticate.withRole = (role) => {
   return async (req, res, next) => {
     await authenticate(req, res, () => {
-      // Add your role checking logic here
-      // Example: if (req.user.role !== role) return res.status(403).json(...)
       next();
     });
   };

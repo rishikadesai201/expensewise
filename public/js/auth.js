@@ -1,12 +1,3 @@
-/**
- * Authentication Service - Handles JWT authentication
- * Features:
- * - Token management (storage, retrieval)
- * - Automatic token refresh
- * - Authentication checks
- * - User data management
- * - Session monitoring
- */
 class Auth {
   // Store authentication data
   static setAuthData(token, userData) {

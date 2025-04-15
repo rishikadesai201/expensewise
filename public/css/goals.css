@@ -1,8 +1,4 @@
-/* ============================================== */
-/* Unified Dashboard CSS - Matching Budget Colors */
-/* ============================================== */
 
-/* Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -16,7 +12,7 @@ body {
   line-height: 1.6;
 }
 
-/* Layout Structure */
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
@@ -30,7 +26,6 @@ body {
   overflow-y: auto;
 }
 
-/* Header Styles */
 .dashboard-header {
   margin-bottom: 30px;
 }
@@ -48,7 +43,7 @@ body {
   font-size: 16px;
 }
 
-/* Card Components */
+
 .card {
   background-color: #333840;
   border-radius: 12px;
@@ -84,7 +79,6 @@ body {
   font-size: 18px;
 }
 
-/* Buttons */
 .btn {
   padding: 12px 20px;
   border-radius: 8px;
@@ -129,7 +123,6 @@ body {
   background-color: #5a6268;
 }
 
-/* Form Controls */
 .form-group {
   margin-bottom: 20px;
 }
@@ -159,7 +152,7 @@ body {
   box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
 }
 
-/* Sidebar (Original) */
+
 .sidebar {
   width: 300px;
   background-color: #1f3a57;
@@ -214,7 +207,7 @@ body {
   margin-right: 10px;
 }
 
-/* === Goals Page Specific Styles === */
+
 .goals-container {
   display: grid;
   grid-template-columns: 1fr;
@@ -293,7 +286,7 @@ body {
   margin-top: 20px;
 }
 
-/* Goal Status Badges */
+
 .goal-status {
   display: inline-block;
   padding: 4px 12px;
@@ -318,7 +311,7 @@ body {
   color: #f1c40f;
 }
 
-/* Empty State */
+
 .empty-state {
   text-align: center;
   padding: 40px 20px;
@@ -336,7 +329,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* Form Layout */
+
 .form-row {
   display: flex;
   gap: 20px;
@@ -346,7 +339,7 @@ body {
   flex: 1;
 }
 
-/* Responsive Design */
+
 @media (max-width: 992px) {
   .goals-container {
     grid-template-columns: 1fr;

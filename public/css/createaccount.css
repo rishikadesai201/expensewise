@@ -2,8 +2,8 @@
   --primary-color: #00b4d8;
   --primary-hover: #0096c7;
   --accent-color: #90e0ef;
-  --background-color: #0d0d12; /* Match SignIn background color */
-  --card-bg: #1b1b24; /* Match SignIn background color */
+  --background-color: #0d0d12; 
+  --card-bg: #1b1b24; 
   --text-color: #e0e0e0;
   --secondary-text: #9ca3af;
   --input-bg: #1e293b;
@@ -12,7 +12,7 @@
   --glow-medium: #00b4d855;
 }
 
-/* Base styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -22,7 +22,7 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--background-color); /* Match SignIn background */
+  background-color: var(--background-color); 
   color: var(--text-color);
   display: flex;
   justify-content: center;
@@ -32,9 +32,9 @@ body {
   overflow: hidden;
 }
 
-/* Auth container */
+
 .auth-container {
-  background: var(--card-bg); /* Same background color as SignIn */
+  background: var(--card-bg); 
   padding: 2.5rem;
   border-radius: 16px;
   box-shadow: 0 0 20px rgba(0, 180, 216, 0.1), 0 0 12px var(--glow-light);
@@ -47,7 +47,7 @@ body {
   opacity: 0;
 }
 
-/* Fade-in animation */
+
 @keyframes fadeIn {
   to {
     opacity: 1;
@@ -59,7 +59,7 @@ body {
   }
 }
 
-/* Logo styles */
+
 .logo {
   font-size: 2rem;
   font-weight: bold;
@@ -72,7 +72,7 @@ body {
   color: var(--accent-color);
 }
 
-/* Titles */
+
 .auth-title {
   font-size: 1.4rem;
   margin-bottom: 0.25rem;
@@ -85,7 +85,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* Form */
+
 .auth-form {
   display: flex;
   flex-direction: column;
@@ -116,7 +116,7 @@ body {
   background-color: var(--input-bg);
 }
 
-/* Password toggle */
+
 .password-wrapper {
   position: relative;
 }
@@ -131,7 +131,7 @@ body {
   color: var(--accent-color);
 }
 
-/* Buttons */
+
 .btn {
   padding: 0.75rem;
   font-size: 1rem;
@@ -159,7 +159,7 @@ body {
   width: 100%;
 }
 
-/* Bottom text */
+
 .auth-bottom-text {
   font-size: 0.9rem;
   color: var(--secondary-text);
@@ -175,7 +175,7 @@ body {
   text-decoration: underline;
 }
 
-/* Footer */
+
 .footer {
   margin-top: 1.5rem;
   font-size: 0.8rem;

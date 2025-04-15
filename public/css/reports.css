@@ -1,8 +1,4 @@
-/* ============================================== */
-/* Unified Dashboard CSS - Matching Budget Colors */
-/* ============================================== */
 
-/* Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -29,7 +25,7 @@ ul {
   list-style: none;
 }
 
-/* Layout Structure */
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
@@ -43,7 +39,7 @@ ul {
   overflow-y: auto;
 }
 
-/* Header Styles */
+
 .dashboard-header {
   margin-bottom: 30px;
 }
@@ -61,7 +57,7 @@ ul {
   font-size: 16px;
 }
 
-/* Card Components */
+
 .card {
   background-color: #333840;
   border-radius: 12px;
@@ -101,7 +97,7 @@ ul {
   color: #e0e0e0;
 }
 
-/* Buttons */
+
 .btn {
   padding: 12px 20px;
   border-radius: 8px;
@@ -146,7 +142,7 @@ ul {
   background-color: #5a6268;
 }
 
-/* Form Controls */
+
 .form-group {
   margin-bottom: 20px;
 }
@@ -176,7 +172,7 @@ ul {
   box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
 }
 
-/* Sidebar (Original) */
+
 .sidebar {
   width: 300px;
   background-color: #1f3a57;
@@ -231,7 +227,7 @@ ul {
   margin-right: 10px;
 }
 
-/* === Reports Page Specific Styles === */
+
 .charts-container {
   display: grid;
   grid-template-columns: 1fr;
@@ -275,7 +271,7 @@ ul {
   margin-bottom: 15px;
 }
 
-/* Utility Classes */
+
 .text-muted {
   color: #7f8c8d;
 }
@@ -288,7 +284,7 @@ ul {
   margin-top: 20px;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .dashboard-container {
     flex-direction: column;

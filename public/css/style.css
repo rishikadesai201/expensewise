@@ -31,14 +31,14 @@ body {
   line-height: 1.6;
 }
 
-/* Container */
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* Header */
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -47,7 +47,6 @@ body {
   background-color: var(--background-color);
 }
 
-/* Logo */
 .logo {
   font-size: 2rem;
   font-weight: 700;
@@ -60,10 +59,10 @@ body {
   text-shadow: 0 0 6px var(--primary-color);
 }
 
-/* Navbar */
+
 .navbar {
   display: flex;
-  gap: 30px; /* Space out navbar links */
+  gap: 30px; 
   align-items: center;
 }
 
@@ -93,7 +92,7 @@ body {
   box-shadow: 0 0 10px var(--primary-color);
 }
 
-/* Buttons */
+
 .auth-buttons {
   display: flex;
   gap: 12px;
@@ -111,13 +110,13 @@ body {
 }
 
 .btn-primary {
-  background-color: #28a745; /* Green button */
+  background-color: #28a745; 
   color: #fff;
   border: none;
 }
 
 .btn-primary:hover {
-  background-color: #218838; /* Darker green on hover */
+  background-color: #218838;
   box-shadow: 0 0 10px rgba(40, 167, 69, 0.8);
 }
 
@@ -146,10 +145,10 @@ body {
   font-weight: 400;
 }
 
-/* Image Section */
+
 .image-section {
   text-align: center;
-  margin-top: -20px; /* Shift image upwards */
+  margin-top: -20px; 
 }
 
 .image-section img {
@@ -159,7 +158,7 @@ body {
   box-shadow: 0 0 15px rgba(0, 180, 216, 0.2);
 }
 
-/* Features Section */
+
 .features {
   display: flex;
   flex-wrap: wrap;
@@ -202,7 +201,7 @@ body {
   font-size: 0.95rem;
 }
 
-/* About Section */
+
 .about-section {
   padding: 60px 0;
   text-align: center;
@@ -213,7 +212,7 @@ body {
   margin-bottom: 20px;
 }
 
-/* FAQ Section */
+
 .faq-section {
   padding: 60px 0;
   text-align: center;
@@ -232,7 +231,7 @@ body {
   font-size: 1.2rem;
 }
 
-/* Contact Section */
+
 .contact-section {
   text-align: center;
   padding: 60px 0;

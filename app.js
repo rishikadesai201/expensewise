@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-// Update the cors middleware in app.js
+
 app.use(cors({
   origin: 'http://localhost:5002', // or your frontend URL
   credentials: true,
@@ -50,7 +50,7 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/users', userRoutes);
 app.use("/api/categories", categoriesRouter); 
 
-// --------- FRONTEND ROUTES (HTML pages) ---------
+
 
 // Home page
 app.get('/', (req, res) => {
@@ -72,7 +72,7 @@ app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'assets', 'dashboard.html'));
 });
 
-// Other pages (just to cover any other links you have)
+// Other pages 
 app.get('/budgets', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'assets', 'budgets.html'));
 });
@@ -105,7 +105,7 @@ app.get('/settings', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'assets', 'settings.html'));
 });
 
-// Optional: Handle 404s if any route is not found
+
 app.use((req, res) => {
   res.status(404).send('404 - Page Not Found');
 });

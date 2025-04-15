@@ -36,7 +36,6 @@
   </div>
 
   <script>
-    // Handle form submission
     document.getElementById('create-account-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -75,8 +74,6 @@
         submitBtn.textContent = 'Create Account';
       }
     });
-
-    // Password toggle function
     function togglePassword(fieldId) {
       const passwordInput = document.getElementById(fieldId);
       passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
